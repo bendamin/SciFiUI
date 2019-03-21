@@ -1,10 +1,8 @@
 # SciFi UI Project
 
-Name:
+Name: Ben Cox
 
-Student Number: 
-
-Fork this repository and use it a starter project for your assignment
+Student Number: C17325641
 
 # Description of the assignment
 
