@@ -1,5 +1,7 @@
 package ie.tudublin;
 
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 
 public class UI extends PApplet
@@ -12,6 +14,11 @@ public class UI extends PApplet
     Target target;
     Dashboard dash;
     Interior interior;
+
+    int i = 0;
+
+    public ArrayList<Scene> scene = new ArrayList<Scene>(); 
+
 
     boolean[] keys = new boolean[1024];
 
@@ -90,6 +97,17 @@ public class UI extends PApplet
         if (checkKey(LEFT))
         {
             System.out.println("Left arrow key pressed");
+        }
+
+        if(scene.size() < 5){
+            Mountain mount = new Mountain(this, width, height/2, random(0,height/3), 150, 80, 40);
+            scene.add(mount);
+            System.out.println("scene");
+        };
+
+        while(i < scene.size()){
+            scene.get(i).render();
+            i++;
         }
     }
 }

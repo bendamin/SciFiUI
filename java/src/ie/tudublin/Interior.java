@@ -1,7 +1,5 @@
 package ie.tudublin;
 
-import java.awt.color.ColorSpace;
-
 import processing.core.PApplet;
 
 public class Interior
