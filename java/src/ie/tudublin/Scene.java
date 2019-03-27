@@ -13,15 +13,20 @@ public abstract class Scene
     protected float speed;
     protected float x;
     protected float y;
-    protected int red;
-    protected int green;
-    protected int blue;
+    protected float red;
+    protected float green;
+    protected float blue;
     UI ui;
 
-    public Scene(UI ui, float x, float y, float peak, int red, int green, int blue)
+    public Scene(UI ui, float x, float y, float peak, float red, float green, float blue)
     {
         this.ui = ui;
         this.peak = peak;
+        this.x = x;
+        this.y = y;
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
         pos = new PVector(x, y); 
         this.speed = speed;
     }
@@ -103,7 +108,7 @@ public abstract class Scene
     /**
      * @return the red
      */
-    public int getRed() {
+    public float getRed() {
         return red;
     }
 
@@ -117,7 +122,7 @@ public abstract class Scene
     /**
      * @return the green
      */
-    public int getGreen() {
+    public float getGreen() {
         return green;
     }
 
@@ -131,7 +136,7 @@ public abstract class Scene
     /**
      * @return the blue
      */
-    public int getBlue() {
+    public float getBlue() {
         return blue;
     }
 

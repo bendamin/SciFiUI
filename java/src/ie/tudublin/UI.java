@@ -66,6 +66,18 @@ public class UI extends PApplet
     {
         background(255);
 
+        if(scene.size() < 5){
+            Mountain mount = new Mountain(this, random(0,width), height, random(0,height/3), random(70,150), random(30,80), random(25,70));
+            scene.add(mount);
+            System.out.println("scene");
+        };
+        
+        i = 0;
+        while(i < scene.size()){
+            scene.get(i).render();
+            i++;
+        }
+
         interior.render();
         
         dash.update();
@@ -99,16 +111,7 @@ public class UI extends PApplet
             System.out.println("Left arrow key pressed");
         }
 
-        if(scene.size() < 5){
-            Mountain mount = new Mountain(this, width, height/2, random(0,height/3), 150, 80, 40);
-            scene.add(mount);
-            System.out.println("scene");
-        };
-
-        while(i < scene.size()){
-            scene.get(i).render();
-            i++;
-        }
+   
     }
 }
 
