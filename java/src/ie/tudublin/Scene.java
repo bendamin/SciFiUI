@@ -8,76 +8,46 @@ import processing.core.*;
 
 public abstract class Scene
 {
-    protected PVector pos;
-    protected float peak;
-    protected float speed;
-    protected float x;
-    protected float y;
-    protected float compassX;
-    protected float compassY;
-    protected float red;
-    protected float green;
-    protected float blue;
-    UI ui;
 
-    public Scene(UI ui, float x, float y, float peak, float red, float green, float blue, float compassX, float compassY)
+    UI ui;
+    float x;
+    float y;
+    float z;
+    float size;
+    float color;
+    float compassX;
+    float compassY;
+    boolean visible;
+
+    public Scene(UI ui, float x, float y, float z, float size, float color, float compassX, float compassY)
     {
         this.ui = ui;
-        this.peak = peak;
         this.x = x;
         this.y = y;
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-        pos = new PVector(x, y); 
+        this.z = z;
+        this.size = size;
+        this.color = color;
+        this.visible = false;
         this.compassX = compassX;
         this.compassY = compassY;
     }
 
-    public abstract void update();
+    public abstract void update(float x, float y);
 
     public abstract void render();
 
     /**
-     * @return the pos
+     * @return the ui
      */
-    public PVector getPos() {
-        return pos;
+    public UI getUi() {
+        return ui;
     }
 
     /**
-     * @param pos the pos to set
+     * @param ui the ui to set
      */
-    public void setPos(PVector pos) {
-        this.pos = pos;
-    }
-
-    /**
-     * @return the peak
-     */
-    public float getPeak() {
-        return peak;
-    }
-
-    /**
-     * @param peak the peak to set
-     */
-    public void setPeak(float peak) {
-        this.peak = peak;
-    }
-
-    /**
-     * @return the speed
-     */
-    public float getSpeed() {
-        return speed;
-    }
-
-    /**
-     * @param speed the speed to set
-     */
-    public void setSpeed(float speed) {
-        this.speed = speed;
+    public void setUi(UI ui) {
+        this.ui = ui;
     }
 
     /**
@@ -109,80 +79,59 @@ public abstract class Scene
     }
 
     /**
-     * @return the red
+     * @return the z
      */
-    public float getRed() {
-        return red;
+    public float getZ() {
+        return z;
     }
 
     /**
-     * @param red the red to set
+     * @param z the z to set
      */
-    public void setRed(int red) {
-        this.red = red;
+    public void setZ(float z) {
+        this.z = z;
     }
 
     /**
-     * @return the green
+     * @return the size
      */
-    public float getGreen() {
-        return green;
+    public float getSize() {
+        return size;
     }
 
     /**
-     * @param green the green to set
+     * @param size the size to set
      */
-    public void setGreen(int green) {
-        this.green = green;
+    public void setSize(float size) {
+        this.size = size;
     }
 
     /**
-     * @return the blue
+     * @return the color
      */
-    public float getBlue() {
-        return blue;
+    public float getColor() {
+        return color;
     }
 
     /**
-     * @param blue the blue to set
+     * @param color the color to set
      */
-    public void setBlue(int blue) {
-        this.blue = blue;
+    public void setColor(float color) {
+        this.color = color;
     }
 
     /**
-     * @return the ui
+     * @return the visible
      */
-    public UI getUi() {
-        return ui;
+    public boolean isVisible() {
+        return visible;
     }
 
     /**
-     * @param ui the ui to set
+     * @param visible the visible to set
      */
-    public void setUi(UI ui) {
-        this.ui = ui;
-    }
-
-    /**
-     * @param red the red to set
-     */
-    public void setRed(float red) {
-        this.red = red;
-    }
-
-    /**
-     * @param green the green to set
-     */
-    public void setGreen(float green) {
-        this.green = green;
-    }
-
-    /**
-     * @param blue the blue to set
-     */
-    public void setBlue(float blue) {
-        this.blue = blue;
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     /**
@@ -212,7 +161,5 @@ public abstract class Scene
     public void setCompassY(float compassY) {
         this.compassY = compassY;
     }
-
-    
     
 }

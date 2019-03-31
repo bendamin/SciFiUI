@@ -27,9 +27,9 @@ public class Screens
         ui.fill(0);
         ui.rect(x, y, sizeX, sizeY);
         ui.fill(255);
-        // Static field
-        ui.textAlign(PApplet.CENTER, PApplet.CENTER);
-        ui.text("Screen", x + (sizeX/2), y + (sizeY/2));
+        //ui.fill(0,0,100);
+        //ui.textAlign(PApplet.CENTER, PApplet.CENTER);
+        //ui.text("Screen", x + (sizeX/2), y + (sizeY/2));
 
     }
 

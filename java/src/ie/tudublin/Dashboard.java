@@ -8,7 +8,6 @@ public class Dashboard
     private float height;
     private float sizeX;
     private float sizeY;
-
     UI ui;
 
     public Dashboard(UI ui, float width,float height)

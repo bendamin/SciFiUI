@@ -21,27 +21,12 @@ public class Interior
     
     public void render()
     {
-
-        ui.fill(0,0,255,40);
+        ui.fill(60, 70, 45, 40);
         ui.rect(0, 0, sizeX, sizeY);
-
-        /*
-        ui.stroke(255);
-        ui.fill(0);
-        ui.rect(x, y, sizeX, sizeY);
-        ui.fill(255);
-        // Static field
-        ui.textAlign(PApplet.CENTER, PApplet.CENTER);
-        ui.text("Screen", x + (sizeX/2), y + (sizeY/2)); */
-
     }
 
     public void update()
     {
-        //x += dx;
-        //if ((x > ui.width - radius) || (x < radius))
-        //{
-        //    dx *= -1;
-        //}
+
     }
 }

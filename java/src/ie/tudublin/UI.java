@@ -6,18 +6,20 @@ import processing.core.PApplet;
 
 public class UI extends PApplet
 {
-    Button b;
-    MovingCircle mc;
     Screens midscreen;
     Screens leftscreen;
     Screens rightscreen;
     Target target;
     Dashboard dash;
     Interior interior;
+    boolean sight = false;
+    boolean firing = false;
 
     int i = 0;
+    int level = 1;
+
     float compassX = 0;
-    float compassY = 90;
+    float compassY = 0;
 
     public ArrayList<Scene> scene = new ArrayList<Scene>(); 
 
@@ -31,7 +33,7 @@ public class UI extends PApplet
     
     public void keyReleased()
     {
-        keys[keyCode] = true;
+        keys[keyCode] = false;
     }
 
     public boolean checkKey(int c)
@@ -52,40 +54,33 @@ public class UI extends PApplet
     {
         interior = new Interior(this, width, height);
         dash = new Dashboard(this, width, height);
-        //b = new Button(this, 50, 50, 100, 50, "I am a button");
-        //mc = new MovingCircle(this, width / 2, height * .75f, 50);
         radar = new Radar(this, 1, width / 2, height / 2, 100);
         midscreen = new Screens(this, (width/2) - (width/10), height - (height/4),width/5, height/5);
         leftscreen = new Screens(this,width/10,  height - (height/4), width/4, height/6);
         rightscreen = new Screens(this, width - ((width/10)+(width/4)),  height - (height/4), width/4, height/6);
-
         target = new Target(this, width, height);
+
+        while(i < (level * 100)){
+            Planets planet = new Planets(this, random(0,width*4), random(0 - height, height*2), random(0), random(width/20, width/10),random(0,100), compassX, compassY);
+            scene.add(planet);
+            i++;
+        }
     }
 
     Radar radar;
 
     public void draw()
     {
+        colorMode(HSB, 100);
         noStroke();
         background(0);
 
-        if(scene.size() < 40){
-            //Mountain mount = new Mountain(this, random(0,width), (float)(height/2.5), random(height/3, height/5), random(70,150), random(30,80), random(25,70));
-            //scene.add(mount);
-            
-            Planets planet = new Planets(this, random(0,360), random(0, 180), random(height/8, height/20), random(0, 255), random(0,255), random(0,255),compassX, compassY);
-            scene.add(planet);
-            System.out.println("scene");
-        };
-        
-        i = 0;
-        while(i < scene.size()){
-            if (dist(scene.get(i).x, 0, compassX, 0) < 90){
-                scene.get(i).setCompassX(compassX);
-                scene.get(i).render();
-            }
-            
-            i++;
+        //let cx = 30;
+
+        //all between 345 and 75 visible
+
+        for(int j = 0; j < scene.size(); j++){
+                scene.get(j).render();
         }
 
 
@@ -93,12 +88,6 @@ public class UI extends PApplet
         
         dash.update();
         dash.render();
-
-        
-        //b.render();
-
-        //mc.update();
-        //mc.render();
 
         midscreen.update();
         midscreen.render();
@@ -112,22 +101,110 @@ public class UI extends PApplet
         radar.update();
         radar.render();
 
-        target.update();
+        target.update(sight);
         target.render();
+
+        info();
+        beam();
 
 
 
         if (checkKey(LEFT))
         {
+            for(int j = 0; j < scene.size(); j++){
+                scene.get(j).update(5,0);
+            }
+            compassX = compassX - 5;
+            
             System.out.println("Left arrow key pressed");
+        }
+
+        if (checkKey(RIGHT))
+        {
+            for(int j = 0; j < scene.size(); j++){
+                scene.get(j).update(-5,0);
+            }
+
+            compassX = compassX + 5;
+
+
+            System.out.println("Right arrow key pressed");
+        }
+
+        if (checkKey(UP))
+        {
+            if(compassY < height){
+                for(int j = 0; j < scene.size(); j++){
+                    scene.get(j).update(0,5);
+                }
+                compassY = compassY + 5;
+            }
+
+            System.out.println("Up arrow key pressed");
+        }
+
+        if (checkKey(DOWN))
+        {
+            if(compassY > 0 - height){
+                for(int j = 0; j < scene.size(); j++){
+                    scene.get(j).update(0,-5);
+                }
+                compassY = compassY - 5;
+            }
+
+            System.out.println("Up arrow key pressed");
+        }
+
+        if (checkKey(' '))
+        {
+            if(sight){
+                firing = true;
+            }
+            System.out.println("Space key pressed");
         }
         
 
    
     }
 
-    float getCompassX(){
-        return compassX;
+    public void info(){
+        //display co-ords
+        fill(0,0,100);
+        textAlign(PApplet.CENTER, PApplet.CENTER);
+
+        float cordX = map(compassX, 0, height*4, 0, 360);
+
+        //to allow for multiple rotations, a while loop is used
+        while(cordX > 360){
+            cordX = cordX - 360;
+        }
+
+        while(cordX < 0){
+            cordX = 360 + cordX;
+        }
+
+        String displayX = Float.toString(cordX);
+        String displayY = Float.toString(map(compassY,-height, height, 0, 180));
+
+
+
+        text("Current Ship Direction:\nShip is heading: " + displayX + "\nWith an incline of: " + displayY, (width/10) + (width/8), (height - (height/4)) + (height/12));
+    }
+
+    void beam(){
+        sight = false;
+
+        
+
+        for(int j = 0; j < scene.size(); j++){
+            if (dist(width/2, height/2, scene.get(j).x,scene.get(j).y) < width/12){
+                sight = true;
+                if(firing == true){
+                    scene.remove(j);
+                }
+            }
+        }
+        firing = false;
     }
 }
 

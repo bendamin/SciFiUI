@@ -13,6 +13,7 @@ public class Target
     private float viewfinderX;
     private float viewfinderY;
     private String locked;
+    private float finder;
 
     UI ui;
 
@@ -28,12 +29,13 @@ public class Target
         this.crosshairX = (width/80);
         this.crosshairY = (height/80);
         this.locked = "No Target";
+        this.finder = 96;
 
     }
     
     public void render()
     {
-        ui.stroke(255,0,0);
+        ui.stroke(finder,100,100);
         ui.noFill();
         ui.ellipse(middleX,middleY, width/3, height/3);
         ui.ellipse(middleX, middleY, viewfinderX, viewfinderY);
@@ -42,6 +44,7 @@ public class Target
         ui.line(middleX, middleY - (height/5), middleX, middleY + (height/5));
 
         ui.rect(middleX - (width/20), height/4, width/10, height/30);
+        ui.fill(finder,100,100);
         ui.textAlign(PApplet.CENTER, PApplet.CENTER);
         ui.text(locked, middleX, (height/4) + (height/60));
 
@@ -50,12 +53,14 @@ public class Target
 
     }
 
-    public void update()
+    public void update(boolean sight)
     {
-        //x += dx;
-        //if ((x > ui.width - radius) || (x < radius))
-        //{
-        //    dx *= -1;
-        //}
+        if(sight){
+            this.finder = 20;
+            this.locked = "Lock On";
+        }else{
+            this.finder = 96;
+            this.locked = "No Target";
+        }
     }
 }
