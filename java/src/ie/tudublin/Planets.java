@@ -13,9 +13,7 @@ public class Planets extends Scene
     public void render()
     {
         ui.fill(color,100,100);
-
         ui.ellipse(x, y, size, size);
-        
     }
 
     public void update(float offsetX, float offsetY)

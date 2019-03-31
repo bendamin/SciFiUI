@@ -61,7 +61,7 @@ public class UI extends PApplet
         target = new Target(this, width, height);
 
         while(i < (level * 100)){
-            Planets planet = new Planets(this, random(0,width*4), random(0 - height, height*2), random(0), random(width/20, width/10),random(0,100), compassX, compassY);
+            Planets planet = new Planets(this, random(0,width*4), random(0 - height, height*2), 0, random(width/20, width/10),random(0,100), compassX, compassY);
             scene.add(planet);
             i++;
         }
@@ -96,7 +96,7 @@ public class UI extends PApplet
         leftscreen.render();
 
         rightscreen.update();
-        rightscreen.render();
+        rightscreen.render(); 
 
         radar.update();
         radar.render();
@@ -105,8 +105,18 @@ public class UI extends PApplet
         target.render();
 
         info();
-        beam();
 
+
+        if(firing){
+        fill(96,100,100);
+            for(int m = 0; m < width/3; m = m + 1){
+                ellipse(width/2, height/2, m, m);
+            }
+            fill(0,0,100);
+            rect(0,0,width,height);
+        }
+
+        beam();
 
 
         if (checkKey(LEFT))
