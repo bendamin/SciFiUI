@@ -13,12 +13,14 @@ public abstract class Scene
     protected float speed;
     protected float x;
     protected float y;
+    protected float compassX;
+    protected float compassY;
     protected float red;
     protected float green;
     protected float blue;
     UI ui;
 
-    public Scene(UI ui, float x, float y, float peak, float red, float green, float blue)
+    public Scene(UI ui, float x, float y, float peak, float red, float green, float blue, float compassX, float compassY)
     {
         this.ui = ui;
         this.peak = peak;
@@ -28,7 +30,8 @@ public abstract class Scene
         this.green = green;
         this.blue = blue;
         pos = new PVector(x, y); 
-        this.speed = speed;
+        this.compassX = compassX;
+        this.compassY = compassY;
     }
 
     public abstract void update();
@@ -159,6 +162,55 @@ public abstract class Scene
      */
     public void setUi(UI ui) {
         this.ui = ui;
+    }
+
+    /**
+     * @param red the red to set
+     */
+    public void setRed(float red) {
+        this.red = red;
+    }
+
+    /**
+     * @param green the green to set
+     */
+    public void setGreen(float green) {
+        this.green = green;
+    }
+
+    /**
+     * @param blue the blue to set
+     */
+    public void setBlue(float blue) {
+        this.blue = blue;
+    }
+
+    /**
+     * @return the compassX
+     */
+    public float getCompassX() {
+        return compassX;
+    }
+
+    /**
+     * @param compassX the compassX to set
+     */
+    public void setCompassX(float compassX) {
+        this.compassX = compassX;
+    }
+
+    /**
+     * @return the compassY
+     */
+    public float getCompassY() {
+        return compassY;
+    }
+
+    /**
+     * @param compassY the compassY to set
+     */
+    public void setCompassY(float compassY) {
+        this.compassY = compassY;
     }
 
     

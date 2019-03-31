@@ -16,6 +16,8 @@ public class UI extends PApplet
     Interior interior;
 
     int i = 0;
+    float compassX = 0;
+    float compassY = 90;
 
     public ArrayList<Scene> scene = new ArrayList<Scene>(); 
 
@@ -64,19 +66,28 @@ public class UI extends PApplet
 
     public void draw()
     {
-        background(255);
+        noStroke();
+        background(0);
 
-        if(scene.size() < 5){
-            Mountain mount = new Mountain(this, random(0,width), height, random(0,height/3), random(70,150), random(30,80), random(25,70));
-            scene.add(mount);
+        if(scene.size() < 40){
+            //Mountain mount = new Mountain(this, random(0,width), (float)(height/2.5), random(height/3, height/5), random(70,150), random(30,80), random(25,70));
+            //scene.add(mount);
+            
+            Planets planet = new Planets(this, random(0,360), random(0, 180), random(height/8, height/20), random(0, 255), random(0,255), random(0,255),compassX, compassY);
+            scene.add(planet);
             System.out.println("scene");
         };
         
         i = 0;
         while(i < scene.size()){
-            scene.get(i).render();
+            if (dist(scene.get(i).x, 0, compassX, 0) < 90){
+                scene.get(i).setCompassX(compassX);
+                scene.get(i).render();
+            }
+            
             i++;
         }
+
 
         interior.render();
         
@@ -110,8 +121,13 @@ public class UI extends PApplet
         {
             System.out.println("Left arrow key pressed");
         }
+        
 
    
+    }
+
+    float getCompassX(){
+        return compassX;
     }
 }
 
