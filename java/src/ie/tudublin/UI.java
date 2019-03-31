@@ -50,8 +50,8 @@ public class UI extends PApplet
     {
         interior = new Interior(this, width, height);
         dash = new Dashboard(this, width, height);
-        b = new Button(this, 50, 50, 100, 50, "I am a button");
-        mc = new MovingCircle(this, width / 2, height * .75f, 50);
+        //b = new Button(this, 50, 50, 100, 50, "I am a button");
+        //mc = new MovingCircle(this, width / 2, height * .75f, 50);
         radar = new Radar(this, 1, width / 2, height / 2, 100);
         midscreen = new Screens(this, (width/2) - (width/10), height - (height/4),width/5, height/5);
         leftscreen = new Screens(this,width/10,  height - (height/4), width/4, height/6);
@@ -84,10 +84,10 @@ public class UI extends PApplet
         dash.render();
 
         
-        b.render();
+        //b.render();
 
-        mc.update();
-        mc.render();
+        //mc.update();
+        //mc.render();
 
         midscreen.update();
         midscreen.render();

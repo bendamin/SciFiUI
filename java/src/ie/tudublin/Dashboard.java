@@ -28,6 +28,10 @@ public class Dashboard
         ui.triangle(width/10, height - ((height/3) - (height/20)), width/10, height, 0 - (width/3), height);
         ui.triangle(width - (width/10), height -((height/3) - (height/20)),width - (width/10), height, width + (width/3), height);
 
+        ui.rect(width/10,0, width - (width/5), height/7);
+        ui.triangle(width/10, height/7, width/10, 0, 0 - (width/3), 0);
+        ui.triangle(width - (width/10), height/7,width - (width/10), 0, width + (width/3), 0);
+
         
         ui.fill(255);
 

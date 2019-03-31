@@ -22,7 +22,7 @@ public class Interior
     public void render()
     {
 
-        ui.fill(0,0,255,25);
+        ui.fill(0,0,255,40);
         ui.rect(0, 0, sizeX, sizeY);
 
         /*
