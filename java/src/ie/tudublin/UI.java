@@ -14,9 +14,11 @@ public class UI extends PApplet
     Interior interior;
     boolean sight = false;
     boolean firing = false;
+    boolean lazer = false;
 
     int i = 0;
     int level = 1;
+    int m = 0;
 
     float compassX = 0;
     float compassY = 0;
@@ -105,18 +107,18 @@ public class UI extends PApplet
         target.render();
 
         info();
-
-
-        if(firing){
-        fill(96,100,100);
-            for(int m = 0; m < width/3; m = m + 1){
-                ellipse(width/2, height/2, m, m);
-            }
-            fill(0,0,100);
-            rect(0,0,width,height);
-        }
-
         beam();
+
+        if(lazer == true){
+            fill(96,100,100);
+            ellipse(width/2, height/2, m, m);
+            if(m > width/12){
+                fill(0,0,100);
+                lazer = false;
+                rect(0,0, width, height);
+            }
+        }
+        m = m + width/80;
 
 
         if (checkKey(LEFT))
@@ -195,10 +197,17 @@ public class UI extends PApplet
 
         String displayX = Float.toString(cordX);
         String displayY = Float.toString(map(compassY,-height, height, 0, 180));
-
-
-
         text("Current Ship Direction:\nShip is heading: " + displayX + "\nWith an incline of: " + displayY, (width/10) + (width/8), (height - (height/4)) + (height/12));
+
+
+        //middle screen
+
+
+        //right screen
+        // width - ((width/10)+(width/4)),  height - (height/4), width/4, height/6
+        fill(0,0,100);
+        textAlign(PApplet.CENTER, PApplet.CENTER);
+        text("Targets Remaining:\nPlanets:" + Integer.toString(scene.size()), (width - ((width/10)+(width/4))) + (width/8),height - (height/4)  + (height/12));
     }
 
     void beam(){
@@ -209,12 +218,15 @@ public class UI extends PApplet
         for(int j = 0; j < scene.size(); j++){
             if (dist(width/2, height/2, scene.get(j).x,scene.get(j).y) < width/12){
                 sight = true;
+                m = 0;
+                lazer = true;
                 if(firing == true){
                     scene.remove(j);
                 }
             }
         }
         firing = false;
+        
     }
 }
 
