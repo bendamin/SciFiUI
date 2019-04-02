@@ -14,7 +14,6 @@ public class UI extends PApplet
     Interior interior;
     boolean sight = false;
     boolean firing = false;
-    boolean lazer = false;
 
     int i = 0;
     int level = 1;
@@ -61,18 +60,19 @@ public class UI extends PApplet
         leftscreen = new Screens(this,width/10,  height - (height/4), width/4, height/6);
         rightscreen = new Screens(this, width - ((width/10)+(width/4)),  height - (height/4), width/4, height/6);
         target = new Target(this, width, height);
-
-        while(i < (level * 100)){
-            Planets planet = new Planets(this, random(0,width*4), random(0 - height, height*2), 0, random(width/20, width/10),random(0,100), compassX, compassY);
-            scene.add(planet);
-            i++;
-        }
     }
 
     Radar radar;
 
     public void draw()
     {
+        //needs to be in draw so that it can be called each level
+        while(i < (level * 10)){
+            Planets planet = new Planets(this, random(0,width*4), random(0 - (float)(height/2), (float)(height*3/2)), 0, random(width/20, width/10),random(0,100), compassX, compassY);
+            scene.add(planet);
+            i++;
+        }
+
         colorMode(HSB, 100);
         noStroke();
         background(0);
@@ -106,15 +106,21 @@ public class UI extends PApplet
         target.update(sight);
         target.render();
 
+        textSize(height/20);
+        fill(90,100,100);
+        text("Galaxy Complexity:"+Integer.toString(level), width/2,(height/7)/2);
+
+        textSize(height/60);
+
         info();
         beam();
 
-        if(lazer == true){
+        if(firing == true){
             fill(96,100,100);
             ellipse(width/2, height/2, m, m);
             if(m > width/12){
                 fill(0,0,100);
-                lazer = false;
+                firing = false;
                 rect(0,0, width, height);
             }
         }
@@ -147,9 +153,9 @@ public class UI extends PApplet
         {
             if(compassY < height){
                 for(int j = 0; j < scene.size(); j++){
-                    scene.get(j).update(0,5);
+                    scene.get(j).update(0,(height/160));
                 }
-                compassY = compassY + 5;
+                compassY = compassY + (height/160);
             }
 
             System.out.println("Up arrow key pressed");
@@ -157,11 +163,11 @@ public class UI extends PApplet
 
         if (checkKey(DOWN))
         {
-            if(compassY > 0 - height){
+            if(compassY > (0 - height)){
                 for(int j = 0; j < scene.size(); j++){
-                    scene.get(j).update(0,-5);
+                    scene.get(j).update(0,-(height/160));
                 }
-                compassY = compassY - 5;
+                compassY = compassY - (height/160);
             }
 
             System.out.println("Up arrow key pressed");
@@ -173,6 +179,11 @@ public class UI extends PApplet
                 firing = true;
             }
             System.out.println("Space key pressed");
+        }
+
+        if(scene.size() == 0){
+            i = 0;
+            level = level + 1;
         }
         
 
@@ -195,9 +206,9 @@ public class UI extends PApplet
             cordX = 360 + cordX;
         }
 
-        String displayX = Float.toString(cordX);
-        String displayY = Float.toString(map(compassY,-height, height, 0, 180));
-        text("Current Ship Direction:\nShip is heading: " + displayX + "\nWith an incline of: " + displayY, (width/10) + (width/8), (height - (height/4)) + (height/12));
+        String displayX = Integer.toString((int)cordX);
+        String displayY = Integer.toString((int)(map(compassY,-height, height, 0, 180)));
+        text("Current Ship Direction:\n\nHorizontal Angle: " + displayX + "°\nWith Incline of: " + displayY + "°\nGalaxy Number:" + level, (width/10) + (width/8), (height - (height/4)) + (height/12));
 
 
         //middle screen
@@ -219,13 +230,11 @@ public class UI extends PApplet
             if (dist(width/2, height/2, scene.get(j).x,scene.get(j).y) < width/12){
                 sight = true;
                 m = 0;
-                lazer = true;
                 if(firing == true){
                     scene.remove(j);
                 }
             }
         }
-        firing = false;
         
     }
 }
