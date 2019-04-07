@@ -212,6 +212,9 @@ public class UI extends PApplet
 
 
         //middle screen
+        for(int j = 0; j < scene.size(); j++){
+            scene.get(j).minimap();
+        }
 
 
         //right screen

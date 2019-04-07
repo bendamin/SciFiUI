@@ -36,6 +36,8 @@ public abstract class Scene
 
     public abstract void render();
 
+    public abstract void minimap();
+
     /**
      * @return the ui
      */
