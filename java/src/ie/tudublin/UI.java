@@ -15,14 +15,16 @@ public class UI extends PApplet
     boolean sight = false;
     boolean firing = false;
 
-    int i = 0;
+    int planetsNum = 0;
+    int starNum = 0;
     int level = 1;
     int m = 0;
 
     float compassX = 0;
     float compassY = 0;
 
-    public ArrayList<Scene> scene = new ArrayList<Scene>(); 
+    public ArrayList<Scene> scene = new ArrayList<Scene>();
+    public ArrayList<Scene> stars = new ArrayList<Scene>();
 
 
     boolean[] keys = new boolean[1024];
@@ -67,19 +69,25 @@ public class UI extends PApplet
     public void draw()
     {
         //needs to be in draw so that it can be called each level
-        while(i < (level * 10)){
-            Planets planet = new Planets(this, random(0,width*4), random(0 - (float)(height/2), (float)(height*3/2)), 0, random(width/20, width/10),random(0,100), compassX, compassY);
+        while(planetsNum < (level * 10)){
+            Planets planet = new Planets(this, random(0,width*4), random(0 - (float)(height/2), (float)(height*3/2)), random(width/20, width/10),random(0,100));
             scene.add(planet);
-            i++;
+            planetsNum++;
+        }
+
+        while(starNum < (1000)){
+            Stars star = new Stars(this, random(0,width*4), random(0 - (float)(height), (float)(height*2)), random(0,10), 100);
+            stars.add(star);
+            starNum++;
         }
 
         colorMode(HSB, 100);
         noStroke();
         background(0);
 
-        //let cx = 30;
-
-        //all between 345 and 75 visible
+        for(int l = 0; l < stars.size(); l++){
+            stars.get(l).render();
+    }
 
         for(int j = 0; j < scene.size(); j++){
                 scene.get(j).render();
@@ -132,6 +140,11 @@ public class UI extends PApplet
             for(int j = 0; j < scene.size(); j++){
                 scene.get(j).update(5,0);
             }
+
+            for(int j = 0; j < stars.size(); j++){
+                stars.get(j).update(5,0);
+            }
+
             compassX = compassX - 5;
             
             System.out.println("Left arrow key pressed");
@@ -141,6 +154,10 @@ public class UI extends PApplet
         {
             for(int j = 0; j < scene.size(); j++){
                 scene.get(j).update(-5,0);
+            }
+
+            for(int j = 0; j < stars.size(); j++){
+                stars.get(j).update(-5,0);
             }
 
             compassX = compassX + 5;
@@ -155,6 +172,10 @@ public class UI extends PApplet
                 for(int j = 0; j < scene.size(); j++){
                     scene.get(j).update(0,(height/160));
                 }
+
+                for(int j = 0; j < stars.size(); j++){
+                    stars.get(j).update(0,(height/160));
+                }
                 compassY = compassY + (height/160);
             }
 
@@ -166,6 +187,10 @@ public class UI extends PApplet
             if(compassY > (0 - height)){
                 for(int j = 0; j < scene.size(); j++){
                     scene.get(j).update(0,-(height/160));
+                }
+
+                for(int j = 0; j < stars.size(); j++){
+                    stars.get(j).update(0,-(height/160));
                 }
                 compassY = compassY - (height/160);
             }
@@ -182,7 +207,8 @@ public class UI extends PApplet
         }
 
         if(scene.size() == 0){
-            i = 0;
+            planetsNum = 0;
+            starNum = 0;
             level = level + 1;
         }
         

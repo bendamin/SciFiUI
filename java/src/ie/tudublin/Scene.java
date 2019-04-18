@@ -12,24 +12,16 @@ public abstract class Scene
     UI ui;
     float x;
     float y;
-    float z;
     float size;
     float color;
-    float compassX;
-    float compassY;
-    boolean visible;
 
-    public Scene(UI ui, float x, float y, float z, float size, float color, float compassX, float compassY)
+    public Scene(UI ui, float x, float y, float size, float color)
     {
         this.ui = ui;
         this.x = x;
         this.y = y;
-        this.z = z;
         this.size = size;
-        this.color = color;
-        this.visible = false;
-        this.compassX = compassX;
-        this.compassY = compassY;
+        this.color = color;;
     }
 
     public abstract void update(float x, float y);
@@ -81,20 +73,6 @@ public abstract class Scene
     }
 
     /**
-     * @return the z
-     */
-    public float getZ() {
-        return z;
-    }
-
-    /**
-     * @param z the z to set
-     */
-    public void setZ(float z) {
-        this.z = z;
-    }
-
-    /**
      * @return the size
      */
     public float getSize() {
@@ -120,48 +98,6 @@ public abstract class Scene
      */
     public void setColor(float color) {
         this.color = color;
-    }
-
-    /**
-     * @return the visible
-     */
-    public boolean isVisible() {
-        return visible;
-    }
-
-    /**
-     * @param visible the visible to set
-     */
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
-
-    /**
-     * @return the compassX
-     */
-    public float getCompassX() {
-        return compassX;
-    }
-
-    /**
-     * @param compassX the compassX to set
-     */
-    public void setCompassX(float compassX) {
-        this.compassX = compassX;
-    }
-
-    /**
-     * @return the compassY
-     */
-    public float getCompassY() {
-        return compassY;
-    }
-
-    /**
-     * @param compassY the compassY to set
-     */
-    public void setCompassY(float compassY) {
-        this.compassY = compassY;
     }
     
 }

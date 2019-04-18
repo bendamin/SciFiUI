@@ -3,16 +3,16 @@ package ie.tudublin;
 import processing.core.PVector;
 import processing.core.*;
 
-public class Planets extends Scene
+public class Stars extends Scene
 {
-    public Planets(UI ui, float x, float y, float size, float color)
+    public Stars(UI ui, float x, float y, float size, float color)
     {
         super(ui, x, y, size, color);
     }  
 
     public void render()
     {
-        ui.fill(color,100,100);
+        ui.fill(color);
         ui.ellipse(x, y, size, size);
     }
 
