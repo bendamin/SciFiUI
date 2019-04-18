@@ -76,7 +76,7 @@ public class UI extends PApplet
         }
 
         while(starNum < (1000)){
-            Stars star = new Stars(this, random(0,width*4), random(0 - (float)(height), (float)(height*2)), random(0,10), 100);
+            Stars star = new Stars(this, random(0,width*4), random(0 - (float)(height), (float)(height*  2)), random(0,10), 100);
             stars.add(star);
             starNum++;
         }
@@ -239,7 +239,11 @@ public class UI extends PApplet
 
         //middle screen
         for(int j = 0; j < scene.size(); j++){
-            scene.get(j).minimap();
+            scene.get(j).minimap(compassX,compassY);
+            stroke(92,100,100);
+            noFill();
+            strokeWeight(1);
+            ellipse(((width/2) - (width/10))+ ((width/5)/2), height - (height/4) + ((height/5)/2), 10, 10);
         }
 
 

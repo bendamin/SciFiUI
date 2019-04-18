@@ -32,7 +32,7 @@ public class Stars extends Scene
 
     }
 
-    public void minimap(){
+    public void minimap(float compassX, float compassY){
         ui.fill(color,100,100);
         ui.noStroke();
 
