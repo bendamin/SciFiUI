@@ -18,11 +18,16 @@ While the final project is vastly different, it was from this image that a start
 
 # Instructions
 
-User Controls:
+##User Controls:
 
-To Control Turret - Arrow Keys
+| Control Turret | Toggle |
+|-----------|-----------|
+|Look Up | Up Arrow on Keyboard |
+|Look Down | Down Arrow on Keyboard |
+|Look Left | Left Arrow on Keyboard |
+|Look Right | Right Arrow on Keyboard |
 
-| Weappon | Toggle |
+| Weapon | Toggle |
 |-----------|-----------|
 |Lazer | Number 1 on Keyboard |
 |Missiles | Number 2 on Keyboard |
