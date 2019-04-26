@@ -10,12 +10,23 @@ The task for this assignment was to create a SciFi User Interface similar to wha
 
 This assignment is written in Java code and uses processing libraries to enable visualizations. 
 
-# Instructions
 The design of my assignment is based off of the a Scifi UI found while researching for this project:
+
 ![An image](images/influence.jpg)
+
+While the final project is vastly different, it was from this image that a started the design process. I incorporated the multiscreen layout and used a similar targetting system.
+
+# Instructions
 
 User Controls:
 
+To Control Turret - Arrow Keys
+
+Weapon Layout - 1: Lazer
+				2: Missiles
+				3: Sentry Gun
+
+To Fire Weapons: Space Bar
 
 
 # How it works
