@@ -14,14 +14,41 @@ public class UI extends PApplet
     Interior interior;
     boolean sight = false;
     boolean firing = false;
+    boolean explode = false;
+    String weapon = "Lazer";
 
     int planetsNum = 0;
     int starNum = 0;
     int level = 1;
-    int m = 0;
+    float ammo = 0;
+
+    float explosionSize = 0;
+    float explosionColor = 89;
 
     float compassX = 0;
     float compassY = 0;
+
+    float halfWidth = 0;
+    float halfHeight = 0;
+
+    //middlescreen variables
+    float midStart = 0;
+    float midWidth = 0;
+    float midHeight = 0;
+    float midTop = 0;
+
+    //leftscreen variables
+    float leftStart = 0;
+    float leftWidth = 0;
+    float leftHeight = 0;
+    float leftTop = 0;
+
+    //leftscreen variables
+    float rightStart = 0;
+    float rightWidth = 0;
+    float rightHeight = 0;
+    float rightTop = 0;
+
 
     public ArrayList<Scene> scene = new ArrayList<Scene>();
     public ArrayList<Scene> stars = new ArrayList<Scene>();
@@ -55,12 +82,34 @@ public class UI extends PApplet
 
     public void setup()
     {
+        halfWidth = width/2;
+        halfHeight = height/2;
+
+        //middlescreen variables
+        midStart = (width/2) - (width/10);
+        midWidth = width/5;
+        midHeight = height/5;
+        midTop = height - (height/4);
+
+        //leftscreen variables
+        leftStart = width/10;
+        leftWidth = width/4;
+        leftHeight = height/6;
+        leftTop = height - (height/4);
+
+        //leftscreen variables
+        rightStart = width - ((width/10)+(width/4));
+        rightWidth = width/4;
+        rightHeight = height/6;
+        rightTop = height - (height/4);
+
+
         interior = new Interior(this, width, height);
         dash = new Dashboard(this, width, height);
-        radar = new Radar(this, 1, width / 2, height / 2, 100);
-        midscreen = new Screens(this, (width/2) - (width/10), height - (height/4),width/5, height/5);
-        leftscreen = new Screens(this,width/10,  height - (height/4), width/4, height/6);
-        rightscreen = new Screens(this, width - ((width/10)+(width/4)),  height - (height/4), width/4, height/6);
+        radar = new Radar(this, 1, halfWidth, halfHeight, 100);
+        midscreen = new Screens(this, midStart, midTop, midWidth, midHeight);
+        leftscreen = new Screens(this,leftStart,  leftTop, leftWidth, leftHeight);
+        rightscreen = new Screens(this, rightStart, rightTop, rightWidth, rightHeight);
         target = new Target(this, width, height);
     }
 
@@ -68,31 +117,17 @@ public class UI extends PApplet
 
     public void draw()
     {
-        //needs to be in draw so that it can be called each level
-        while(planetsNum < (level * 10)){
-            Planets planet = new Planets(this, random(0,width*4), random(0 - (float)(height/2), (float)(height*3/2)), random(width/20, width/10),random(0,100));
-            scene.add(planet);
-            planetsNum++;
-        }
-
-        while(starNum < (1000)){
-            Stars star = new Stars(this, random(0,width*4), random(0 - (float)(height), (float)(height*  2)), random(0,10), 100);
-            stars.add(star);
-            starNum++;
-        }
+        createPlanets();
+        createStars();
 
         colorMode(HSB, 100);
         noStroke();
         background(0);
 
-        for(int l = 0; l < stars.size(); l++){
-            stars.get(l).render();
-    }
+        drawStars();
+        drawScene();
 
-        for(int j = 0; j < scene.size(); j++){
-                scene.get(j).render();
-        }
-
+        blowup();
 
         interior.render();
         
@@ -114,25 +149,11 @@ public class UI extends PApplet
         target.update(sight);
         target.render();
 
-        textSize(height/20);
-        fill(90,100,100);
-        text("Galaxy Complexity:"+Integer.toString(level), width/2,(height/7)/2);
-
-        textSize(height/60);
+        roundNum();
 
         info();
-        beam();
-
-        if(firing == true){
-            fill(96,100,100);
-            ellipse(width/2, height/2, m, m);
-            if(m > width/12){
-                fill(0,0,100);
-                firing = false;
-                rect(0,0, width, height);
-            }
-        }
-        m = m + width/80;
+        destroy();
+        weaponAnimation();
 
 
         if (checkKey(LEFT))
@@ -200,16 +221,33 @@ public class UI extends PApplet
 
         if (checkKey(' '))
         {
-            if(sight){
-                firing = true;
-            }
+            firing = true;
+            
             System.out.println("Space key pressed");
         }
+
+        if (checkKey('1'))
+        {
+            weapon = "Lazer";
+        }
+
+        if (checkKey('2'))
+        {
+            weapon = "Missile";
+        }
+
+        if (checkKey('3'))
+        {
+            weapon = "Sentry";
+        }
+
 
         if(scene.size() == 0){
             planetsNum = 0;
             starNum = 0;
             level = level + 1;
+            compassX = 0;
+            compassY = 0;
         }
         
 
@@ -234,16 +272,22 @@ public class UI extends PApplet
 
         String displayX = Integer.toString((int)cordX);
         String displayY = Integer.toString((int)(map(compassY,-height, height, 0, 180)));
-        text("Current Ship Direction:\n\nHorizontal Angle: " + displayX + "°\nWith Incline of: " + displayY + "°\nGalaxy Number:" + level, (width/10) + (width/8), (height - (height/4)) + (height/12));
+        text("Current Ship Direction:\n\nHorizontal Angle: " + displayX + "°\nWith Incline of: " + displayY + "°\nGalaxy Number:" + level, leftStart + (leftWidth/2), leftTop + (leftHeight/2));
 
 
         //middle screen
+        for(int j = 0; j < stars.size(); j++){
+            stars.get(j).minimap();
+        }
+
         for(int j = 0; j < scene.size(); j++){
-            scene.get(j).minimap(compassX,compassY);
+            scene.get(j).minimap();
             stroke(92,100,100);
             noFill();
             strokeWeight(1);
-            ellipse(((width/2) - (width/10))+ ((width/5)/2), height - (height/4) + ((height/5)/2), 10, 10);
+            ellipse(halfWidth, midTop + (midHeight/2), 10, 10);
+            line(halfWidth, midTop, halfHeight, midTop + midHeight);
+            line(midStart, midTop + (midHeight/2), midStart + midWidth , midTop + (midHeight/2));
         }
 
 
@@ -254,7 +298,7 @@ public class UI extends PApplet
         text("Targets Remaining:\nPlanets:" + Integer.toString(scene.size()), (width - ((width/10)+(width/4))) + (width/8),height - (height/4)  + (height/12));
     }
 
-    void beam(){
+    void destroy(){
         sight = false;
 
         
@@ -262,13 +306,117 @@ public class UI extends PApplet
         for(int j = 0; j < scene.size(); j++){
             if (dist(width/2, height/2, scene.get(j).x,scene.get(j).y) < width/12){
                 sight = true;
-                m = 0;
                 if(firing == true){
+                    explode = true;
                     scene.remove(j);
                 }
             }
         }
         
     }
+
+    void createPlanets(){
+        //needs to be in draw so that it can be called each level
+        while(planetsNum < (level * 10)){
+            Planets planet = new Planets(this, random(0,width*4), random(0 - (float)(halfWidth), (float)(halfWidth*3)), random(width/20, width/10),random(0,100));
+            scene.add(planet);
+            planetsNum++;
+        }
+    }
+
+    void createStars(){
+        while(starNum < (100)){
+            Stars star = new Stars(this, random(0,width*4), random(0 - (float)(height*3), (float)(height*4)), random(2,10), 100);
+            stars.add(star);
+            starNum++;
+        }
+    }
+
+    void drawStars(){
+        for(int l = 0; l < stars.size(); l++){
+            stars.get(l).render();
+        }
+    }
+
+    void drawScene(){
+        for(int j = 0; j < scene.size(); j++){
+            scene.get(j).render();
+        }
+    }
+
+    void roundNum(){
+        textSize(height/20);
+        fill(90,100,100);
+        text("Galaxy Complexity:"+Integer.toString(level), halfWidth,(halfHeight)/7);
+
+        textSize(height/60);
+    }
+
+    void weaponAnimation(){
+        if(firing == true){
+            if(weapon.equals("Lazer")){
+                fill(96,100,100);
+                ellipse(width/2, height/2, ammo, ammo);
+                ammo = (width/12) + (random((-width/100),(width/100)));
+                ellipse(halfWidth + random(-width/20,width/20),halfHeight + random(-height/20,height/20), random(3,6), random(3,6));
+                ellipse(halfWidth + random(-width/20,width/20),halfHeight + random(-height/20,height/20), random(6,12), random(6,12));
+                ellipse(halfWidth + random(-width/20,width/20),halfHeight + random(-height/20,height/20), random(12,15), random(12,15));
+
+            }
+            if(weapon.equals("Sentry")){
+                fill(50);
+                ellipse((halfWidth) + (random(-width/80,width/80)), (halfHeight + (random((-width/80),(width/80)))), ammo, ammo);
+                ammo = (width/100) + (random((-width/150),(width/150)));
+            }
+            firing = false;
+        }
+    }
+
+    void blowup(){
+        if(explode){
+            fill(explosionColor,100,100);
+            ellipse(halfWidth, halfHeight, explosionSize, explosionSize);
+            explosionSize = explosionSize + width/20;
+            explosionColor = (float)(explosionColor + 0.2);
+
+            ellipse(halfWidth + random(-width/3,width/3),halfHeight + random(-height/3,height/3), random(10,15), random(10,15));
+            ellipse(halfWidth + random(-width/3,width/3),halfHeight + random(-height/3,height/3), random(15,20), random(15,20));
+            ellipse(halfWidth + random(-width/3,width/3),halfHeight + random(-height/3,height/3), random(20,25), random(20,25));
+
+            if(explosionSize > width/2){
+                explode = false;
+            }
+        }else{
+            explosionColor = 89;
+            explosionSize = width/30;
+        }
+
+    }
+
+    /*
+
+            if(weapon.equals("Lazer")){
+                ammo = ammo + (width/80);
+                if(ammo > width/12){
+                    fill(0,0,100);
+                    firing = false;
+                    rect(0,0, width, height);
+                    ammo = 0;
+                }
+            }
+
+            if(weapon.equals("Missile")){
+                fill(0);
+                stroke(100);
+                ellipse(halfWidth, halfHeight, width/50, height/50);
+                fill(100);
+                ellipse(halfWidth, halfHeight, width/55, height/55);
+                if(ammo > width/12){
+                    fill(0,0,100);
+                    firing = false;
+                    rect(0,0, width, height);
+                    ammo = 0;
+                }
+            }*/
 }
 

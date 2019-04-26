@@ -32,16 +32,28 @@ public class Stars extends Scene
 
     }
 
-    public void minimap(float compassX, float compassY){
+    public void minimap(){
         ui.fill(color,100,100);
         ui.noStroke();
 
-        if(ui.map(x,0,ui.width*4,(ui.width/2) - (ui.width/10),(ui.width/2) - (ui.width/10) + (ui.width/5)) > ((ui.width/2) - (ui.width/10)) && ui.map(x,0,ui.width*4,(ui.width/2) - (ui.width/10),(ui.width/2) - (ui.width/10) + (ui.width/5)) <(ui.width/2) - (ui.width/10) + (ui.width/5)){
-            if(ui.map(y,0 - (float)(ui.height/2), (float)(ui.height*3/2),ui.height - (ui.height/4), ui.height - (ui.height/4) + ui.height/5) >  ui.height - (ui.height/4) && ui.map(y,0 - (float)(ui.height/2), (float)(ui.height*3/2),ui.height - (ui.height/4), ui.height - (ui.height/4) + ui.height/5) < ui.height - (ui.height/4) + ui.height/5){
-                ui.ellipse(ui.map(x,0,ui.width*4,(ui.width/2) - (ui.width/10),(ui.width/2) - (ui.width/10) + (ui.width/5)), ui.map(y,0 - (float)(ui.height/2), (float)(ui.height*3/2),ui.height - (ui.height/4), ui.height - (ui.height/4) + ui.height/5), size/10, size/10);
+        //for values left of 0 mark
+        if(x > ui.width*3){
+            float mappedY = ui.map(y,-ui.height*3, (float)(ui.height*4),ui.height - (ui.height/4), ui.height - (ui.height/4) + ui.height/5);
+            float mappedX = ui.map(x,(float)(ui.width*3),(float)(ui.width*4),(ui.width/2) - (ui.width/10),((ui.width/2) - (ui.width/10))+ ((ui.width/5)/3));
+            ui.fill(100);
+            if(mappedY > ui.height - (ui.height/4) && mappedY < (ui.height - (ui.height/4) + ui.height/5) ){
+                ui.ellipse(mappedX, mappedY, 2, 2);
             }
         }
-        
+        //for values right of 0 mark
+        if(x < ui.width*2){
+            float mappedY = ui.map(y,-ui.height*3, (float)(ui.height*4),ui.height - (ui.height/4), ui.height - (ui.height/4) + ui.height/5);
+            float mappedX = ui.map(x,(float)(0),(float)(ui.width*2),((ui.width/2) - (ui.width/10))+ ((ui.width/5)/3),((ui.width/2) - (ui.width/10))+ (ui.width/5));
+            ui.fill(100);
+            if(mappedY > ui.height - (ui.height/4) && mappedY < (ui.height - (ui.height/4) + ui.height/5) ){
+                ui.ellipse(mappedX, mappedY, 2, 2);
+            }
+        }
 
     };
 

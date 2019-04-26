@@ -28,7 +28,7 @@ public abstract class Scene
 
     public abstract void render();
 
-    public abstract void minimap(float compassX, float compassY);
+    public abstract void minimap();
 
     /**
      * @return the ui
