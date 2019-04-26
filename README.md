@@ -23,7 +23,9 @@ User Controls:
 To Control Turret - Arrow Keys
 
 Weapon Layout - 1: Lazer
+
 				2: Missiles
+				
 				3: Sentry Gun
 
 To Fire Weapons: Space Bar
