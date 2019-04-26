@@ -6,7 +6,17 @@ Student Number: C17325641
 
 # Description of the assignment
 
+The task for this assignment was to create a SciFi User Interface similar to what is found in movies and other media.
+
+This assignment is written in Java code and uses processing libraries to enable visualizations. 
+
 # Instructions
+The design of my assignment is based off of the a Scifi UI found while researching for this project:
+![An image](images/influence.jpg)
+
+User Controls:
+
+
 
 # How it works
 
