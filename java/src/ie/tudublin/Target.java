@@ -33,7 +33,7 @@ public class Target
     
     public void render()
     {
-        ui.stroke(finder,100,100);
+        ui.stroke(finder,100,100,40);
         ui.noFill();
         //reticle
         ui.ellipse(middleX,middleY, width/3, height/3);

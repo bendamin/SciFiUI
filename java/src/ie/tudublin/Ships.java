@@ -51,13 +51,17 @@ public class Ships extends Scene
         if(x > ui.width*3){
             float mappedY = ui.map(y,-ui.height - (float)(ui.height/2), (float)(ui.height*5/2),ui.height - (ui.height/4), ui.height - (ui.height/4) + ui.height/5);
             float mappedX = ui.map(x,(float)(ui.width*3),(float)(ui.width*4),(ui.width/2) - (ui.width/10),((ui.width/2) - (ui.width/10))+ ((ui.width/5)/3));
-            ui.rect(mappedX, mappedY, size/5, size/10);
+            ui.ellipse(mappedX, mappedY, size/5, size/10);
+            ui.ellipse(mappedX - (size/10), mappedY, size/15, size/15);
+            ui.ellipse(mappedX + (size/10), mappedY, size/15, size/15);
         }
         //for values right of 0 mark
         if(x < ui.width*2){
             float mappedY = ui.map(y,-ui.height - (float)(ui.height/2), (float)(ui.height*5/2),ui.height - (ui.height/4), ui.height - (ui.height/4) + ui.height/5);
             float mappedX = ui.map(x,(float)(0),(float)(ui.width*2),((ui.width/2) - (ui.width/10))+ ((ui.width/5)/3),((ui.width/2) - (ui.width/10))+ (ui.width/5));
-            ui.rect(mappedX, mappedY, size/5, size/10);
+            ui.ellipse(mappedX, mappedY, size/5, size/10);
+            ui.ellipse(mappedX - (size/10), mappedY, size/15, size/15);
+            ui.ellipse(mappedX + (size/10), mappedY, size/15, size/15);
         }
     };
 

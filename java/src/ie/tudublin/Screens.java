@@ -27,18 +27,20 @@ public class Screens
         ui.fill(0);
         ui.rect(x, y, sizeX, sizeY);
         ui.fill(255);
-        //ui.fill(0,0,100);
-        //ui.textAlign(PApplet.CENTER, PApplet.CENTER);
-        //ui.text("Screen", x + (sizeX/2), y + (sizeY/2));
+
+        
 
     }
 
     public void update()
     {
-        //x += dx;
-        //if ((x > ui.width - radius) || (x < radius))
-        //{
-        //    dx *= -1;
-        //}
+        //bezel
+        ui.strokeWeight(ui.width/50);
+        ui.stroke(80);
+        ui.line(x,y,x+sizeX, y);
+        ui.line(x,y+sizeY,x+sizeX, y+sizeY);
+        ui.line(x,y,x,y+sizeY);
+        ui.line(x+sizeX,y+sizeY,x+sizeX,y);
+        ui.strokeWeight(ui.width/100);
     }
 }
