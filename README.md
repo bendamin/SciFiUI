@@ -22,11 +22,11 @@ User Controls:
 
 To Control Turret - Arrow Keys
 
-Weapon Layout - 1: Lazer
-
-				2: Missiles
-				
-				3: Sentry Gun
+| Weappon | Toggle |
+|-----------|-----------|
+|Lazer | Number 1 on Keyboard |
+|Missiles | Number 2 on Keyboard |
+|Sentry Gun | Number 3 on Keyboard |
 
 To Fire Weapons: Space Bar
 
