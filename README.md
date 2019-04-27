@@ -19,7 +19,11 @@ While the final project is vastly different, it was from this image that a start
 # Instructions
 While the purpose of the assignment was to create a SciFi UI, due to the interactive elements of this UI, it plays as a space shooter. Using the arrow keys to control the user's targeting and weapons system, you can travel between galaxies and destroy enemy ships and planets.
 
-Each successive galaxy will have more enemies and planets to defeat.
+Each successive galaxy will have more enemies and planets to defeat. Rounds change automatically once all targets are destroyed.
+
+Your ship offers three selectable weapons - lazers, missiles and sentry gun. Each weapon is powerful enough to destroy your target, but all have their own unique animation. These can be selected using the number keys.
+
+Your turret has the ability to pan 360 degrees in the X-axis and 180 degrees in the Y-axis. This is to replicate the control of a top mounted turret on a spaceship.
 ## User Controls:
 
 | Control Turret | Toggle |
