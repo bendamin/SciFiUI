@@ -17,6 +17,28 @@ public class Planets extends Scene
         ui.strokeWeight(2);
         ui.ellipse(x, y, size, size);
 
+        int moonNum = (int)(color/20);
+        float direction = 1;
+
+        for(int j = 1; j <= moonNum+1; j++){
+
+            direction = direction *-1;
+
+            ui.fill(30);
+            ui.pushMatrix();
+            ui.translate(x, y);
+            ui.rotate((float)((direction)*(ui.moon - (direction*50))*0.001*ui.TWO_PI));
+            ui.ellipse(size,size,ui.width/(50*j),ui.width/(50*j));
+            ui.popMatrix();
+            if(direction < 0){
+                direction = direction - 0.1f;
+            }else{
+                direction = direction + 0.1f;
+            }
+        }
+
+        
+
     }
 
     public void update(float offsetX, float offsetY)

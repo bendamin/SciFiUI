@@ -12,17 +12,22 @@ public class Ships extends Scene
 
     public void render()
     {
-        ui.fill(color,100,100);
+        ui.fill(color,30,100);
         ui.stroke(100);
-        ui.strokeWeight(2);
+        ui.strokeWeight(5);
 
 
         ui.pushMatrix();
         ui.translate(x, y);
         ui.rotate((float)(ui.angle*0.001*ui.TWO_PI));
         ui.ellipse(0,0,size*2,size);
+        ui.line(0 - size,0, size,0);
         ui.ellipse( - size , 0, size/2, size/2);
         ui.ellipse(size , 0, size/2, size/2);
+
+        ui.fill(60);
+        ui.ellipse( - size , 0, size/6, size/6);
+        ui.ellipse(size , 0, size/6, size/6);
         ui.popMatrix();
 
     }

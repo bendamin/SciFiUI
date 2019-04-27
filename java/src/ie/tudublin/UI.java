@@ -1,8 +1,11 @@
 package ie.tudublin;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.data.Table;
+import processing.data.TableRow;
 
 public class UI extends PApplet
 {
@@ -29,6 +32,7 @@ public class UI extends PApplet
     float compassX = 0;
     float compassY = 0;
     float angle = 0;
+    float moon = 0;
     boolean addAngle;
 
     float halfWidth = 0;
@@ -56,6 +60,8 @@ public class UI extends PApplet
     public ArrayList<Scene> scene = new ArrayList<Scene>();
     public ArrayList<Scene> stars = new ArrayList<Scene>();
     public ArrayList<Scene> ships = new ArrayList<Scene>();
+    
+    private ArrayList<String> planetNames = new ArrayList<String>();
 
 
     boolean[] keys = new boolean[1024];
@@ -86,6 +92,9 @@ public class UI extends PApplet
 
     public void setup()
     {
+
+        loadName();
+
         halfWidth = width/2;
         halfHeight = height/2;
 
@@ -115,6 +124,47 @@ public class UI extends PApplet
         leftscreen = new Screens(this,leftStart,  leftTop, leftWidth, leftHeight);
         rightscreen = new Screens(this, rightStart, rightTop, rightWidth, rightHeight);
         target = new Target(this, width, height);
+    }
+
+    void loadName(){
+        Table table = new Table();
+
+        table = loadTable("planets.csv","header");
+        
+        for(TableRow row : table.rows()){
+            String name = row.getString("name");
+
+            planetNames.add(name);
+        }
+    }
+
+    void planetName(){
+        strokeWeight(2);
+        stroke(100);
+        fill(10);
+        rect(width/11,0,width-((width/11)*2),height/20);
+        fill(100);
+        stroke(100);
+        text("Use Your Cursor to Identify Planets",width/2,height/40);
+        for(int j = 0; j < scene.size(); j++){
+            
+            if (dist(mouseX, mouseY, scene.get(j).x,scene.get(j).y) < ((scene.get(j).size)/2)){
+                stroke(100);
+                fill(10);
+                rect(width/11,0,width-((width/11)*2),height/20);
+                fill(100);
+                stroke(100);
+                text("Planet Detected: "+planetNames.get(j),width/2,height/40);
+                System.out.println(planetNames.get(j));
+            }
+        }
+    }
+
+    public void mouseClicked(){
+        
+
+
+        System.out.println("Click");
     }
 
     Radar radar;
@@ -164,7 +214,9 @@ public class UI extends PApplet
         target.update(sight);
         target.render();
 
-        rotateShips();
+        planetName();
+
+        rotating();
 
         userInput();
 
@@ -217,6 +269,9 @@ public class UI extends PApplet
 
     void roundNum(){
         textSize(height/20);
+        fill(20);
+        text("Galaxy Complexity:"+Integer.toString(level), halfWidth-(width/200),(halfHeight)/7);
+
         fill(90,100,100);
         text("Galaxy Complexity:"+Integer.toString(level), halfWidth,(halfHeight)/7);
 
@@ -283,7 +338,7 @@ public class UI extends PApplet
         }
     }
 
-    public void rotateShips(){
+    public void rotating(){
         if(angle > 120){
             addAngle = false;
         }
@@ -298,7 +353,9 @@ public class UI extends PApplet
         }else{
             angle--;
         }
-    }
+
+        moon = moon + 5;
+    } 
 
     public void info(){
         //display co-ords
@@ -359,6 +416,7 @@ public class UI extends PApplet
                 if(firing == true){
                     explode = true;
                     scene.remove(j);
+                    planetNames.remove(j);
                 }
             }
         }
