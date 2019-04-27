@@ -35,6 +35,8 @@ public class UI extends PApplet
     float moon = 0;
     boolean addAngle;
 
+    float backgroundColor;
+
     float halfWidth = 0;
     float halfHeight = 0;
 
@@ -146,6 +148,7 @@ public class UI extends PApplet
         fill(100);
         stroke(100);
         text("Use Your Cursor to Identify Planets",width/2,height/40);
+
         for(int j = 0; j < scene.size(); j++){
             
             if (dist(mouseX, mouseY, scene.get(j).x,scene.get(j).y) < ((scene.get(j).size)/2)){
@@ -161,7 +164,7 @@ public class UI extends PApplet
     }
 
     public void mouseClicked(){
-        
+        backgroundColor = random(0,100);
 
 
         System.out.println("Click");
@@ -177,13 +180,15 @@ public class UI extends PApplet
 
         colorMode(HSB, 100);
         noStroke();
-        background(0);
+        background(backgroundColor,100,10);
 
         drawStars();
         drawScene();
         drawShips();
 
         blowup();
+
+        drawCursor();
 
         interior.render();
         
@@ -265,6 +270,11 @@ public class UI extends PApplet
             ships.get(j).update(0,0);
             ships.get(j).render();
         }
+    }
+
+    void drawCursor(){
+        noFill();
+        rect(mouseX - (width/40),mouseY - (height/40),width/20,height/20);
     }
 
     void roundNum(){
