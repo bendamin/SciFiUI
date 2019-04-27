@@ -16,11 +16,13 @@ public class Ships extends Scene
         ui.stroke(100);
         ui.strokeWeight(2);
 
+
         ui.pushMatrix();
-        ui.rotate(ui.radians(1));
-        ui.ellipse(x,y,size*2,size);
-        ui.ellipse(x - size , y, size/2, size/2);
-        ui.ellipse(x + size , y, size/2, size/2);
+        ui.translate(x, y);
+        ui.rotate((float)(ui.angle*0.001*ui.TWO_PI));
+        ui.ellipse(0,0,size*2,size);
+        ui.ellipse( - size , 0, size/2, size/2);
+        ui.ellipse(size , 0, size/2, size/2);
         ui.popMatrix();
 
     }
@@ -44,9 +46,6 @@ public class Ships extends Scene
         }
 
         y = y + offsetY;
-
-        
-
 
     }
 

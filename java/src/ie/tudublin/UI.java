@@ -28,6 +28,8 @@ public class UI extends PApplet
 
     float compassX = 0;
     float compassY = 0;
+    float angle = 0;
+    boolean addAngle;
 
     float halfWidth = 0;
     float halfHeight = 0;
@@ -162,6 +164,8 @@ public class UI extends PApplet
         target.update(sight);
         target.render();
 
+        rotateShips();
+
         userInput();
 
         nextRound();
@@ -276,6 +280,23 @@ public class UI extends PApplet
             level = level + 1;
             compassX = 0;
             compassY = 0;
+        }
+    }
+
+    public void rotateShips(){
+        if(angle > 120){
+            addAngle = false;
+        }
+
+        if(angle < -120){
+            addAngle = true;
+        }
+
+
+        if(addAngle){
+            angle++;
+        }else{
+            angle--;
         }
     }
 
