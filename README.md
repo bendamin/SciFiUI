@@ -17,8 +17,10 @@ The design of my assignment is based off of the a Scifi UI found while researchi
 While the final project is vastly different, it was from this image that a started the design process. I incorporated the multiscreen layout and used a similar targetting system.
 
 # Instructions
+While the purpose of the assignment was to create a SciFi UI, due to the interactive elements of this UI, it plays as a space shooter. Using the arrow keys to control the user's targeting and weapons system, you can travel between galaxies and destroy enemy ships and planets.
 
-##User Controls:
+Each successive galaxy will have more enemies and planets to defeat.
+## User Controls:
 
 | Control Turret | Toggle |
 |-----------|-----------|
