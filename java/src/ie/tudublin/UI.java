@@ -177,7 +177,7 @@ public class UI extends PApplet
     }
 
     void createStars(){
-        while(starNum < (100)){
+        while(starNum < (200)){
             Stars star = new Stars(this, random(0,width*4), random(0 - (float)(height*3), (float)(height*4)), random(2,10), 100);
             stars.add(star);
             starNum++;

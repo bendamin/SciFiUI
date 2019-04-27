@@ -33,7 +33,7 @@ While the final project is vastly different, it was from this image that a start
 |Missiles | Number 2 on Keyboard |
 |Sentry Gun | Number 3 on Keyboard |
 
-To Fire Weapons: Space Bar
+###To Fire Weapons: Space Bar
 
 
 # How it works
