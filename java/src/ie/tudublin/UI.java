@@ -339,7 +339,18 @@ public class UI extends PApplet
                 explode = false;
             }
         }else{
-            explosionColor = 89;
+            if(weapon.equals("Lazer")){
+                explosionColor = 89;
+            }
+
+            if(weapon.equals("Missile")){
+                explosionColor = 0;
+            }
+
+            if(weapon.equals("Sentry")){
+                explosionColor = 70;
+            }
+            
             explosionSize = width/30;
         }
 
