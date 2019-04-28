@@ -46,7 +46,7 @@ The cursor controls an addition targeting option, but is only used for identifyi
 
 
 # How it works
-For this assignment, I used Java and processing libraries to create my SciFi user interface. Once launched, Main.java is used to calls startUI which runs the sketch. The core elements of the sketch are in UI.java and additional classes were created as neccessary.
+For this assignment, I used Java and processing libraries to create my SciFi user interface. Once launched, Main.java is used to call startUI which runs the sketch. The core elements of the sketch are in UI.java and additional classes were created as neccessary.
 
 Libraries used:
 -java.time is used for get the current time and displaying on a clock
@@ -64,6 +64,16 @@ Several classes were created for this project and can be summarized as follows:
 |Ships | Extends the Scene class. This is used for drawing the generated enemy ships each round and displays them on the minimap also. The update function is used for when the turret is rotating |
 |Stars | Extends the Scene class. This is used for drawing the generated stars each round for scenary and displays them on the minimap also. The update function is used for when the turret is rotating |
 |Target | Used for drawing the turrets large target, reticle and target/weapon information. The update method is used to check if a target is in range of the crosshairs |
+
+UI.java has quite a lot of variables, some functional while others are used to reduce the amount of duplicate code and complicated fractions. For example, function variables such as level, compassX, compassY etc. are crucial to the program, whereas the multiple variables used for the screen dimensions are used reduce the amount of duplicate code when interacting with the screens be it for rendering them or the information on them. Variables are given intuitive names that describe their purpose where posssible.
+
+There are 4 ArrayLists used in UI.java. 3 are of type Scene and store objects relevnt to the scenary such as planets, stars and enemies. The last ArrayList stores strings for the planet names. An ArrayList is beneficial for all of the use cases as their amounts vary each round i.e. more planets every round but less names remaining.
+
+User input is also handled in the UI.java files via the keyPressed, keyReleased and checkKey methods for keyboard input. Possible inputs are numbers for selecting weapons, arrow keys for rotating, and the space bar for firing the selected weapon. The cursor and mouse clicks are also accommodated. The cursor can be used for highlighting a planet and have it's name displayed, while a mouse press will generate a random background color via the mouseClicked method. The cursor control is handled by using the dist method to compare the distance of mouseX and mouseY to the center of each planet. If the distance is less than the radius, then the planet's name will be displayed until the mouse moves or the planet is destroyed.
+
+The setup method sets variables to their relative values based on the screen size and instatiates the needed objects. It also calls the loadName method which loads the planet names from a comma seperated value file called planets.csv. It reads each name and adds it to the planetNames ArrayList.
+
+
 
 # What I am most proud of in the assignment
 
