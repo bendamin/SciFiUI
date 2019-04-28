@@ -53,6 +53,7 @@ Libraries used:
 -java.util is used for ArrayLists for storing planet names and scenary objects
 
 Several classes were created for this project and can be summarized as follows:
+
 | Class | Purpose |
 |-----------|-----------|
 |Dashboard | Used for drawing the dashboard on top and bottom of the screen |
