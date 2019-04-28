@@ -14,7 +14,7 @@ The design of my assignment is based off of the a Scifi UI found while researchi
 
 ![An image](images/influence.jpg)
 
-While the final project is vastly different, it was from this image that a started the design process. I incorporated the multiscreen layout and used a similar targetting system.
+While the final project is vastly different, it was from this image that I started the design process. I incorporated the multiscreen layout and used a similar targetting system.
 
 # Instructions
 While the purpose of the assignment was to create a SciFi UI, due to the interactive elements of this UI, it plays as a space shooter. Using the arrow keys to control the user's targeting and weapons system, you can travel between galaxies and destroy enemy ships and planets.
@@ -24,6 +24,9 @@ Each successive galaxy will have more enemies and planets to defeat. Rounds chan
 Your ship offers three selectable weapons - lazers, missiles and sentry gun. Each weapon is powerful enough to destroy your target, but all have their own unique animation. These can be selected using the number keys.
 
 Your turret has the ability to pan 360 degrees in the X-axis and 180 degrees in the Y-axis. This is to replicate the control of a top mounted turret on a spaceship.
+
+The cursor controls an addition targeting option, but is only used for identifying plantes. Simply hover the cursor via a mouse or trackpad over any planet to find it's name. The names are sourced from the names of all know exoplanets and can be found here:
+[Exoplanet Names](https://en.wikipedia.org/wiki/List_of_exoplanets_(full))
 ## User Controls:
 
 | Control Turret | Toggle |
