@@ -42,10 +42,27 @@ The cursor controls an addition targeting option, but is only used for identifyi
 |Missiles | Number 2 on Keyboard |
 |Sentry Gun | Number 3 on Keyboard |
 
-### To Fire Weapons: Space Bar
+*To Fire Weapons: Space Bar*
 
 
 # How it works
+For this assignment, I used Java and processing libraries to create my SciFi user interface. Once launched, Main.java is used to calls startUI which runs the sketch. The core elements of the sketch are in UI.java and additional classes were created as neccessary.
+
+Libraries used:
+-java.time is used for get the current time and displaying on a clock
+-java.util is used for ArrayLists for storing planet names and scenary objects
+
+Several classes were created for this project and can be summarized as follows:
+| Class | Purpose |
+|-----------|-----------|
+|Dashboard | Used for drawing the dashboard on top and bottom of the screen |
+|Interior | Used for drawing the interior window |
+|Scene | An abstract class used for various scenary classes. It handles basic parameters and has update,render and minimap method |
+|Planets | Extends the Scene class. This is used for drawing the generated planets each round and displays them on the minimap also. The update function is used for when the turret is rotating |
+|Screens | Used for rendering the multiple screens in the cockpit and their bezels |
+|Ships | Extends the Scene class. This is used for drawing the generated enemy ships each round and displays them on the minimap also. The update function is used for when the turret is rotating |
+|Stars | Extends the Scene class. This is used for drawing the generated stars each round for scenary and displays them on the minimap also. The update function is used for when the turret is rotating |
+|Target | Used for drawing the turrets large target, reticle and target/weapon information. The update method is used to check if a target is in range of the crosshairs |
 
 # What I am most proud of in the assignment
 
