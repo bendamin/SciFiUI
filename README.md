@@ -42,7 +42,7 @@ The cursor controls an addition targeting option, but is only used for identifyi
 |Missiles | Number 2 on Keyboard |
 |Sentry Gun | Number 3 on Keyboard |
 
-###To Fire Weapons: Space Bar
+### To Fire Weapons: Space Bar
 
 
 # How it works
