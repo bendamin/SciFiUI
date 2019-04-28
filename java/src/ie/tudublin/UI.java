@@ -124,7 +124,6 @@ public class UI extends PApplet
 
         interior = new Interior(this, width, height);
         dash = new Dashboard(this, width, height);
-        radar = new Radar(this, 1, halfWidth, halfHeight, 100);
         midscreen = new Screens(this, midStart, midTop, midWidth, midHeight);
         leftscreen = new Screens(this,leftStart,  leftTop, leftWidth, leftHeight);
         rightscreen = new Screens(this, rightStart, rightTop, rightWidth, rightHeight);
@@ -161,20 +160,14 @@ public class UI extends PApplet
                 fill(100);
                 stroke(100);
                 text("Planet Detected: "+planetNames.get(j),width/2,height/40);
-                System.out.println(planetNames.get(j));
             }
         }
     }
 
     public void mouseClicked(){
         backgroundColor = random(0,100);
-
-
-        System.out.println("Click");
-        clock();
+        System.out.println("Background Color changed");
     }
-
-    Radar radar;
 
     public void draw()
     {
@@ -208,9 +201,6 @@ public class UI extends PApplet
         rightscreen.update();
         rightscreen.render(); 
 
-        radar.update();
-        radar.render();
-
         
 
         roundNum();
@@ -235,7 +225,6 @@ public class UI extends PApplet
     }
 
     void createPlanets(){
-        //needs to be in draw so that it can be called each level
         while(planetsNum < (level * 10)){
             Planets planet = new Planets(this, random(0,width*4), random(0 - (float)(halfWidth), (float)(halfWidth*3)), random(width/20, width/10),random(0,100));
             scene.add(planet);
@@ -305,8 +294,7 @@ public class UI extends PApplet
         fill(25,100,80);
         stroke(25,100,80);
 
-        text(hour.toString(),halfWidth,(height - (float)(height/3.2))+(height/40));
-        System.out.println(hour);
+        text(hour.toString(),halfWidth,(height - (float)(height/3.2))+(height/40)); 
     }
 
     void weaponAnimation(){
