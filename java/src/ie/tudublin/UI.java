@@ -1,6 +1,9 @@
 package ie.tudublin;
 
 import java.awt.event.MouseEvent;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -168,6 +171,7 @@ public class UI extends PApplet
 
 
         System.out.println("Click");
+        clock();
     }
 
     Radar radar;
@@ -220,6 +224,8 @@ public class UI extends PApplet
         target.render();
 
         planetName();
+
+        clock();
 
         rotating();
 
@@ -287,6 +293,20 @@ public class UI extends PApplet
 
         textSize(height/60);
         text("Lazer: 1         Missile: 2         Sentry: 3", halfWidth,(halfHeight)/4);
+    }
+
+    void clock(){
+        LocalTime hour = ZonedDateTime.now().toLocalTime().truncatedTo(ChronoUnit.SECONDS);
+        fill(0);
+        stroke(100);
+        strokeWeight(3);
+        rect((halfWidth)-width/10, height - (float)(height/3.2), width/5, height/20);
+
+        fill(25,100,80);
+        stroke(25,100,80);
+
+        text(hour.toString(),halfWidth,(height - (float)(height/3.2))+(height/40));
+        System.out.println(hour);
     }
 
     void weaponAnimation(){
