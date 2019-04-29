@@ -73,6 +73,20 @@ User input is also handled in the UI.java files via the keyPressed, keyReleased 
 
 The setup method sets variables to their relative values based on the screen size and instatiates the needed objects. It also calls the loadName method which loads the planet names from a comma seperated value file called planets.csv. It reads each name and adds it to the planetNames ArrayList.
 
+the planetName method draws a screen at the top of the screen and asks the user to use their cursor to indentify planets. Whenn the user hovers the cursor over a planet, it's name is displayed. This is handled by looping through all visible planets and comparing their distance from the current mouse position.
+
+The draw method is called 60 times a second and as such, contains all neccessary method calls for drawing. Firstly it calls the createPlanets, createStars and createShips methods. These contain while loops which are used to create the needed objects each round and adding them to their respective ArrayLists. During each round, these loops do nothing, as the object don't need to be created until the next round. These objects are drawn using the drawStars, drawScene and drawShips methods. These loop through all the objects in their relevant ArrayList and update and render them as neccessary.
+
+The blowup method handles the animation for explosions when planets or enemies are destroyed. It checks if the boolean explode is true. It will be true if in the previous draw call, a planet was shot at. If it's true, it will animate the explosion by drawing ellipses and making them bigger each draw until they're big enough. Once large enough, explode is set to false. If explode is false, explosionColor is set to the correct color depending on the current weapon system.
+
+The drawCursor method simply draws a hollow rectange around the cursor to show the user where they're pointing currently. drawing the scenery and cursor, the inside of the ship is rendered. This is down using the relevant methods. interior.render for example renders the interior window, while dash.render renders the top and bottom dashboard. The various screen methods simply render the screens. The roundNum method is used for displaying the current round to the user and shows the weapons available.
+
+The info method renders the relevant information onto the 3 screens. First, it converts the current X co-ordinate so that it's understandable i.e. makes sure it's between 0 and 360. On the left screen, the ships co-ordinates are displayed. Next, the middle screen's information is displayed. In this case, this means rendering the in game minimap displaying the stars, planets and enemies. This is done vie each objects minimap method achieved through the use of the abstract class Scene which ensures they all have the minimap method. A crosshair is then rendered on the minimpap to show the user's position. Finally, the right screen's information is rendered. This includes the number of planets and enemies remaining, which is found by checking the size of their respective ArrayLists.
+
+
+
+
+
 
 
 # What I am most proud of in the assignment
