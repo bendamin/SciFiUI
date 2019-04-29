@@ -419,7 +419,7 @@ public class UI extends PApplet
         fill(92,100,100);
         strokeWeight(1);
         ellipse(halfWidth, midTop + (midHeight/2), 10, 10);
-        line(halfWidth, midTop, halfHeight, midTop + midHeight);
+        line(halfWidth, midTop, halfWidth, midTop + midHeight);
         line(midStart, midTop + (midHeight/2), midStart + midWidth , midTop + (midHeight/2));
 
 
