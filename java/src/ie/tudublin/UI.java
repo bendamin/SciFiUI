@@ -90,9 +90,6 @@ public class UI extends PApplet
     public void settings()
     {
         size(800, 800);
-        //colorMode(HSB);
-        // Use fullscreen instead of size to make your interface fullscreen
-        //fullScreen(P3D); 
     }
 
     public void setup()
@@ -190,16 +187,12 @@ public class UI extends PApplet
 
         interior.render();
         
-        dash.update();
         dash.render();
 
-        midscreen.update();
         midscreen.render();
 
-        leftscreen.update();
         leftscreen.render();
 
-        rightscreen.update();
         rightscreen.render(); 
 
         
