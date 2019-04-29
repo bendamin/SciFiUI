@@ -351,7 +351,8 @@ public class UI extends PApplet
     }
 
     public void nextRound(){
-        if(scene.size() == 0 && ships.size() == 0){
+
+        if(scene.size() == 0 && ships.size() == 0 && level < 10){
             planetsNum = 0;
             starNum = 0;
             shipNum = 0;
