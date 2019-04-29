@@ -171,6 +171,7 @@ public class UI extends PApplet
 
     public void draw()
     {
+        noCursor();
         createPlanets();
         createStars();
         createShips();
