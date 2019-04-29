@@ -44,6 +44,8 @@ The cursor controls an addition targeting option, but is only used for identifyi
 
 *To Fire Weapons: Space Bar*
 
+*To Show Planet Name: Hover Cursor Over Planet*
+
 
 # How it works
 For this assignment, I used Java and processing libraries to create my SciFi user interface. Once launched, Main.java is used to call startUI which runs the sketch. The core elements of the sketch are in UI.java and additional classes were created as neccessary.
