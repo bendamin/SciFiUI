@@ -435,7 +435,7 @@ public class UI extends PApplet
         
 
         for(int j = 0; j < scene.size(); j++){
-            if (dist(width/2, height/2, scene.get(j).x,scene.get(j).y) < width/12){
+            if (dist(width/2, height/2, scene.get(j).x,scene.get(j).y) < (scene.get(j).size/2)){
                 sight = true;
                 if(firing == true){
                     explode = true;
