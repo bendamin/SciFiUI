@@ -73,9 +73,7 @@ There are 4 ArrayLists used in UI.java. 3 are of type Scene and store objects re
 
 User input is also handled in the UI.java files via the keyPressed, keyReleased and checkKey methods for keyboard input. Possible inputs are numbers for selecting weapons, arrow keys for rotating, and the space bar for firing the selected weapon. The cursor and mouse clicks are also accommodated. The cursor can be used for highlighting a planet and have it's name displayed, while a mouse press will generate a random background color via the mouseClicked method. The cursor control is handled by using the dist method to compare the distance of mouseX and mouseY to the center of each planet. If the distance is less than the radius, then the planet's name will be displayed until the mouse moves or the planet is destroyed.
 
-The setup method sets variables to their relative values based on the screen size and instatiates the needed objects. It also calls the loadName method which loads the planet names from a comma seperated value file called planets.csv. It reads each name and adds it to the planetNames ArrayList.
-
-the planetName method draws a screen at the top of the screen and asks the user to use their cursor to indentify planets. Whenn the user hovers the cursor over a planet, it's name is displayed. This is handled by looping through all visible planets and comparing their distance from the current mouse position.
+The setup method sets variables to their relative values based on the screen size and instatiates the needed objects. It also calls the loadName method which loads the planet names from a comma seperated value file called planets.csv. It reads each name and adds it to the planetNames ArrayList by using Table and storing each row from the text file before adding to the ArrayList.
 
 The draw method is called 60 times a second and as such, contains all neccessary method calls for drawing. Firstly it calls the createPlanets, createStars and createShips methods. These contain while loops which are used to create the needed objects each round and adding them to their respective ArrayLists. During each round, these loops do nothing, as the object don't need to be created until the next round. These objects are drawn using the drawStars, drawScene and drawShips methods. These loop through all the objects in their relevant ArrayList and update and render them as neccessary.
 
@@ -83,10 +81,46 @@ The blowup method handles the animation for explosions when planets or enemies a
 
 The drawCursor method simply draws a hollow rectange around the cursor to show the user where they're pointing currently. drawing the scenery and cursor, the inside of the ship is rendered. This is down using the relevant methods. interior.render for example renders the interior window, while dash.render renders the top and bottom dashboard. The various screen methods simply render the screens. The roundNum method is used for displaying the current round to the user and shows the weapons available.
 
-The info method renders the relevant information onto the 3 screens. First, it converts the current X co-ordinate so that it's understandable i.e. makes sure it's between 0 and 360. On the left screen, the ships co-ordinates are displayed. Next, the middle screen's information is displayed. In this case, this means rendering the in game minimap displaying the stars, planets and enemies. This is done vie each objects minimap method achieved through the use of the abstract class Scene which ensures they all have the minimap method. A crosshair is then rendered on the minimpap to show the user's position. Finally, the right screen's information is rendered. This includes the number of planets and enemies remaining, which is found by checking the size of their respective ArrayLists.
+The info method renders the relevant information onto the 3 screens. First, it converts the current X co-ordinate so that it's understandable i.e. makes sure it's between 0 and 360. On the left screen, the ships co-ordinates are displayed. Next, the middle screen's information is displayed. In this case, this means rendering the in game minimap displaying the stars, planets and enemies. This is done via each object's minimap method achieved through the use of the abstract class Scene which ensures they all have the minimap method. This method uses the map method to ensure all objects are mapped correctly to the minimap relative to there location and the perspective of the user at that time. This minimap gives a simulated 270 degrees of coverage compared to the 90 degrees for the view throgh the targeting system. A crosshair is then rendered on the minimpap to show the user's position. Finally, the right screen's information is rendered. This includes the number of planets and enemies remaining, which is found by checking the size of their respective ArrayLists.
 
+The destroy method is next to be called in each draw call. This method handles removing planet and enemy object when they are shot. It does this by looping through the objects and seeing if they are within range of being shot. If this is true and the user is currently shooting, the object or objects if both in range, will be removed from their respective ArrayLists, and if it is a planet, it's name will be removed from the list of exoplanet names read from planets.csv.
 
+The next method to be called in draw is weaponAnimation. It checks if the user is firing by checking the boolean *firing* and if they are, it then check which weapon is selected by checking the contents of the String *weapon*. Depending on the weapon, the color, size and location will be drawn differently to match the real world look of the selected weapon.
 
+The method screenBezel simplies calls the undpate method of each screen and has them draw their bezel over the screen borders. Then update and render are called for the target. In update, the boolean *sight* is passed which will be true if a planet or enemy is in range. If sight is true, the target finder is set to green and will say 'Lock On'. Else, it will say 'No Target'. The render function then draws the target finder, with the color depending on the outcome of update. The reticle is drawn in the centre, a crosshair in a plus shape is drawn and a box for displaying the target information is drawn above it.
+
+The planetName method draws a screen at the top of the screen and asks the user to use their cursor to indentify planets. When the user hovers the cursor over a planet, it's name is displayed. This is handled by looping through all visible planets and comparing their distance from the current mouse position. If more than one planet is in range of the cursor, it will be the last rendered planet that will have it's name displayed.
+
+the clock method is a simple method used for displaying a real time clock above the middle screen on the dashboard. This is achieved via 
+```Java
+LocalTime hour = ZonedDateTime.now().toLocalTime().truncatedTo(ChronoUnit.SECONDS);
+```
+Then hour is converted to a String using hour.toString() so that it can be rendered using the text method and thus displaying the user's current time.
+
+Next to be calle in draw is rotating. First it checks if the current value of angle is too high or low. This value is used for rotating the enemies back and forth. If the value is too low, addAngle is setto true and then angle will be incremented. Otherwise, the opposite is true. It also increments moon by 5 every call. This variable is used for rotating the moons for the given planets both clockwise and anticlockwise.
+
+Next, userInput is called. This handles the user input from the keyboard for directions. Depending on the arrow key pressed, the objects will be have their x and y values adjusted to create the simulation of rotating around the user. The compass variables are also adjusted depending on the arrow key. From the following code snippet for the use case of the user pressing LEFT, it can be seen how each direction only requires slight adjustment to conform to it's needs.
+```Java
+if (checkKey(LEFT))
+        {
+            for(int j = 0; j < scene.size(); j++){
+                scene.get(j).update(5,0);
+            }
+
+            for(int j = 0; j < ships.size(); j++){
+                ships.get(j).update(5,0);
+            }
+
+            for(int j = 0; j < stars.size(); j++){
+                stars.get(j).update(5,0);
+            }
+
+            compassX = compassX - 5;
+            
+            System.out.println("Left arrow key pressed");
+        }
+```
+Although, up and down have additional checks to prevent the user rotating to far up or down as it would be disorientating. This is done by comparing the current Y value of the compass to the height of the UI. Additionally, this method checks if the user is pressing SPACE and if so, sets the boolean *firing* to true. It also checks for num pad values entered and depending on if it is 1,2, or 3, sets the *weapon* string to the correct value.
 
 
 
