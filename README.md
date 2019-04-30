@@ -51,8 +51,11 @@ The cursor controls an addition targeting option, but is only used for identifyi
 For this assignment, I used Java and processing libraries to create my SciFi user interface. Once launched, Main.java is used to call startUI which runs the sketch. The core elements of the sketch are in UI.java and additional classes were created as neccessary.
 
 Libraries used:
+
 -java.time is used for get the current time and displaying on a clock
+
 -java.util is used for ArrayLists for storing planet names and scenary objects
+
 
 Several classes were created for this project and can be summarized as follows:
 
