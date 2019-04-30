@@ -200,6 +200,7 @@ The method *screenBezel()* simplies calls the *update()* method of each screen a
 The *planetName()* method draws a screen at the top of the UI and asks the user to use their cursor to indentify planets. When the user hovers the cursor over a planet, it's name is displayed. This is handled by looping through all visible planets and comparing their distance from the current mouse position. If more than one planet is in range of the cursor, it will be the last rendered planet that will have it's name displayed.
 
 The *clock()* method is a simple method used for displaying a real time clock above the middle screen on the dashboard. This is achieved via 
+
 ```Java
 LocalTime hour = ZonedDateTime.now().toLocalTime().truncatedTo(ChronoUnit.SECONDS);
 ```
@@ -229,6 +230,7 @@ public void rotating(){
 ```
 
 Next, *userInput()* is called. This handles the user input from the keyboard for directions. Depending on the arrow key pressed, the objects will be have their x and y values adjusted to create the simulation of rotating around the user. The compass variables are also adjusted depending on the arrow key. From the following code snippet for the use case of the user pressing LEFT, it can be seen how each direction only requires slight adjustment to conform to it's needs.
+
 ```Java
 if (checkKey(LEFT))
         {
@@ -255,6 +257,107 @@ Although, UP and DOWN have additional checks to prevent the user rotating to far
 
 
 # What I am most proud of in the assignment
+The elements of this project that I am most proud of are my use of git, the execution of 360 degrees rotation on the X-axis for roating the turret and how I mapped the onscreen objects onto the minimap.
+
+For enabling a full 360 degrees of rotation, certain ideas were incorporated. by default the user has a simulated 90 degrees of vision through the window. Once loaded, all planets between the X values 0 and *width* are visible. This requires little work to implement. But as soon as the user presses LEFT, problems would arrise. Similarly, if the user pressed RIGHT until they had passed all planets, they would continue indefinitely and never see any more planets. To avoid this, first we need to look at how the system responds to the arrow keys.
+
+```Java
+if (checkKey(LEFT))
+        {
+            for(int j = 0; j < scene.size(); j++){
+                scene.get(j).update(5,0);
+            }
+
+            for(int j = 0; j < ships.size(); j++){
+                ships.get(j).update(5,0);
+            }
+
+            for(int j = 0; j < stars.size(); j++){
+                stars.get(j).update(5,0);
+            }
+
+            compassX = compassX - 5;
+            
+            System.out.println("Left arrow key pressed");
+        }
+```
+
+As you can see, the parameters 5 and 0 are passed to each scenary object's *update()* method. Once passed, this how they are handled:
+
+```Java
+public void update(float offsetX, float offsetY)
+    {
+        x = x + offsetX;
+
+        if(x > ui.width*4){
+            x = 0;
+        }
+
+        if(x < 0){
+            x = ui.width*4;
+        }
+
+        y = y + offsetY;
+
+    }
+```
+
+here you can see how the illusion of rotation is achieved. Since the user's simulated field of view is 90 degrees, the total width of a rectange that would be able to wrap around 360 degrees is *width* multiplied by 4. As such, if a value exceeds this, is position must have gone past the 360 degree mark and such is back at 0 degrees and thus, its x value is set to 0. The opposite is done when an x value becomes less than 0. It is set to *width* by 4 as it is now the 360 degrees away when turning clockwise. This enables the user to rotate left or right as much as they wish.
+
+The harder element of the code though was enabling this to be visible on the minimap with a much wider field of view. While I knew from the start this would require the use of the *map()* method, I did not expect it be as challenging and rewarding as it was. At first I was using the was rendering the objects on the minimap using the *map()* method inside the relevant render methods used and entering values directly in. This presented extremely long and complicated lines of code and made debugging difficult when errors occured. As such, I first calculated the mapped value for the X and Y co-ordinate and then used them to draw the minimap after. This also improved readability greatly. This is the end result in the case of the planets, but is very similar to the other objects with the exception of the stars extending further off the screen to stop the UI from looking cut off, whereas planets and enemies had to be reachable with the target:
+
+```Java
+public void minimap(){
+        ui.fill(color,100,100);
+        ui.noStroke();
+
+        //for values left of 0 mark
+        if(x > ui.width*3){
+            float mappedY = ui.map(y,-ui.height - (float)(ui.height/2), (float)(ui.height*5/2),ui.height - (ui.height/4), ui.height - (ui.height/4) + ui.height/5);
+            float mappedX = ui.map(x,(float)(ui.width*3),(float)(ui.width*4),(ui.width/2) - (ui.width/10),((ui.width/2) - (ui.width/10))+ ((ui.width/5)/3));
+            ui.ellipse(mappedX, mappedY, size/10, size/10);
+        }
+        //for values right of 0 mark
+        if(x < ui.width*2){
+            float mappedY = ui.map(y,-ui.height - (float)(ui.height/2), (float)(ui.height*5/2),ui.height - (ui.height/4), ui.height - (ui.height/4) + ui.height/5);
+            float mappedX = ui.map(x,(float)(0),(float)(ui.width*2),((ui.width/2) - (ui.width/10))+ ((ui.width/5)/3),((ui.width/2) - (ui.width/10))+ (ui.width/5));
+            ui.ellipse(mappedX, mappedY, size/10, size/10);
+        }
+    }
+```
+
+The reason for the two if statements is that objects with an extremely big x value would actually be on the left of the minimap if the users target was to be the center of the minimap. As such, the first if statment deals with planets, enemies and stars to the left of the user's position by 90 degrees but that can't currently be seen. The other if statement handles the remaining 180 degrees. This creates a field of view of 270 degrees - 135 degrees left and right of the center of the user's screen.
+
+Smaller elements of the project that I am proud of are the inclusion of push/pop matrix, rotaion and translation. I had little experience with these before starting this project and so ensured I included them somewhere. I used these concepts to create generated moons for each planet and have the amount, size and direction of rotation vary from planet to planet. This is the code used:
+
+```Java
+	int moonNum = (int)(color/20);
+        float direction = 1;
+
+        for(int j = 1; j <= moonNum+1; j++){
+
+            direction = direction *-1;
+
+            ui.fill(30);
+            ui.pushMatrix();
+            ui.translate(x, y);
+            ui.rotate((float)((direction)*(ui.moon - (direction*50))*0.001*ui.TWO_PI));
+            ui.ellipse(size,size,ui.width/(50*j),ui.width/(50*j));
+            ui.popMatrix();
+            if(direction < 0){
+                direction = direction - 0.1f;
+            }else{
+                direction = direction + 0.1f;
+            }
+        }
+```
+
+The first part of this sets the number of moons per planet. This is calculated depending on the color of the given planet. The variable *direction* is set to 1. It is used for changing whether the moon rotates clockwise or anti-clockwise. *pushMatrix()* is used so other screen elements aren't also rotated/translated after. The UI is translates to the planet's center point and then rotated around it. The moon is then drawn and *popMatrix()* is called. The absolute value of direction increases at the end of each pass of the loop. The size of the moon is *ui.width/(50*j)* so that the size is reduced for each additional moon on the planet.
+
+Regarding git, while I had an account for many years, lacked proficient skills in using git which made it little use to me. Through this project and module, I have learned to commit, branch, fork, set remotes and much more. I made a very large amount of commits over the course of this project, but it also has enabled me to start using git for other projects such as Android apps that I make as a hobby. While this is not entirely relevant to the SciFi UI, it has been incredibly helpful for my abilty to code and collaborate with friends on other projects.
+
+# SciFi Demo
+
 
 # Markdown Tutorial
 
