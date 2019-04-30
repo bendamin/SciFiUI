@@ -72,23 +72,128 @@ Several classes were created for this project and can be summarized as follows:
 
 *UI.java* has quite a lot of variables, some functional while others are used to reduce the amount of duplicate code and complicated fractions. For example, functional variables such as level, compassX, compassY etc. are crucial to the program, whereas the multiple variables used for the screen dimensions are used reduce the amount of duplicate code when interacting with the screens be it for rendering them or the information on them. Variables are given intuitive names that describe their purpose where posssible.
 
-There are 4 ArrayLists used in UI.java. 3 are of type Scene and store objects relevnt to the scenary such as planets, stars and enemies. The last ArrayList stores strings for the planet names. An ArrayList is beneficial for all of the use cases as their amounts vary each round i.e. more planets every round but less names remaining.
+There are 4 ArrayLists used in UI.java. 3 are of type Scene and store objects relevnt to the scenary such as planets, stars and enemies. The last ArrayList stores strings for the planet names. An ArrayList is beneficial for all of the use cases as their amounts vary each round i.e. more planets every round but less names remaining. Planets are stored in an ArrayList called *scene* and not planets, as the intention is that planets can be swapped out easily for any other scenary orientated object such as mountains, asteroids or anything else.
 
 User input is also handled in the *UI.java* files via the *keyPressed()*, *keyReleased()* and *checkKey()* methods for keyboard input. Possible inputs are numbers for selecting weapons, arrow keys for rotating, and the space bar for firing the selected weapon. The cursor and mouse clicks are also accommodated. The cursor can be used for highlighting a planet and have it's name displayed, while a mouse press will generate a random background color via the *mouseClicked()* method. The cursor control is handled by using the dist method to compare the distance of mouseX and mouseY to the center of each planet. If the distance is less than the radius, then the planet's name will be displayed until the mouse moves or the planet is destroyed.
 
 The *setup()* method sets variables to their relative values based on the screen size and instatiates the needed objects. It also calls the *loadName()* method which loads the planet names from a comma seperated value file called *planets.csv*. It reads each name and adds it to the *planetNames* ArrayList by using Table and storing each row from the text file before adding to the ArrayList.
 
-The *draw()* method is called 60 times a second and as such, contains all neccessary method calls for rendering the UI. Firstly it calls the *createPlanets()*, *createStars()* and *createShips()* methods. These contain while loops which are used to create the needed objects each round and adding them to their respective ArrayLists. During each round, these loops do nothing, as the object don't need to be created until the next round. This cannot be used in *setup* as they need to be called each round. These objects are drawn using the *drawStars()*, *drawScene()* and *drawShips()* methods. These loop through all the objects in their relevant ArrayList and update and render them as neccessary.
+The *draw()* method is called 60 times a second and as such, contains all neccessary method calls for rendering the UI. For reference, theses are the methods called:
+
+```Java
+public void draw()
+    {
+        noCursor();
+        createPlanets();
+        createStars();
+        createShips();
+
+        colorMode(HSB, 100);
+        noStroke();
+        background(backgroundColor,100,10);
+
+        drawStars();
+        drawScene();
+        drawShips();
+
+        blowup();
+
+        drawCursor();
+
+        interior.render();
+        
+        dash.render();
+
+        midscreen.render();
+
+        leftscreen.render();
+
+        rightscreen.render(); 
+
+        
+
+        roundNum();
+
+        info();
+        destroy();
+        weaponAnimation();
+        screenBezel();
+
+        target.update(sight);
+        target.render();
+
+        planetName();
+
+        clock();
+
+        rotating();
+
+        userInput();
+
+        nextRound();
+    }
+```
+
+Firstly it calls the *createPlanets()*, *createStars()* and *createShips()* methods. These contain while loops which are used to create the needed objects each round and adding them to their respective ArrayLists. During each round, these loops do nothing, as the object don't need to be created until the next round. This cannot be used in *setup* as they need to be called each round. These objects are drawn using the *drawStars()*, *drawScene()* and *drawShips()* methods. These loop through all the objects in their relevant ArrayList and update and render them as neccessary. All size and position variables are set relative to the width and height of the current UI. Below is code demonstrating how for planets, they are added to the ArrayList and then rendered:
+
+```Java
+void createPlanets(){
+        while(planetsNum < (level * 10)){
+            Planets planet = new Planets(this, random(0,width*4), random(0 - (float)(halfWidth), (float)(halfWidth*3)), random(width/20, width/10),random(0,100));
+            scene.add(planet);
+            planetsNum++;
+        }
+    }
+```
+
+```Java
+void drawScene(){
+        for(int j = 0; j < scene.size(); j++){
+            scene.get(j).render();
+        }
+    }
+```
+
+
 
 The *blowup()* method handles the animation for explosions when planets or enemies are destroyed. It checks if the boolean explode is true. It will be true if in the previous *draw()* call, a planet was shot at. If it's true, it will animate the explosion by drawing ellipses and making them bigger each draw until they're big enough. Once large enough, explode is set to false. If explode is false, *explosionColor* is set to the correct color depending on the current weapon system.
+
 
 The *drawCursor()* method simply draws a hollow rectange around the cursor to show the user where they're pointing currently. After drawing the scenery and cursor, the inside of the ship is rendered. This is downe using the relevant methods. *interior.render()* for example renders the interior window, while *dash.render()* renders the top and bottom dashboard. The various screen methods simply render the screens. The *roundNum()* method is used for displaying the current round to the user and shows the weapons available.
 
 The *info()* method renders the relevant information onto the 3 screens. First, it converts the current X co-ordinate so that it's understandable i.e. makes sure it's between 0 and 360. On the left screen, the ships co-ordinates are displayed. Next, the middle screen's information is displayed. In this case, this means rendering the in game minimap displaying the stars, planets and enemies. This is done via each object's *minimap()* method achieved through the use of the abstract class *Scene* which ensures they all have the minimap method. This method uses the map method to ensure all objects are mapped correctly to the minimap relative to there location and the perspective of the user at that time. This minimap gives a simulated 270 degrees of coverage compared to the 90 degrees for the view throgh the targeting system. A crosshair is then rendered on the minimpap to show the user's position. Finally, the right screen's information is rendered. This includes the number of planets and enemies remaining, which is found by checking the size of their respective ArrayLists.
 
-The *destroy()* method is next to be called in each draw call. This method handles removing planet and enemy object when they are shot. It does this by looping through the objects and seeing if they are within range of being shot. If this is true and the user is currently shooting, the object or objects if both in range, will be removed from their respective ArrayLists, and if it is a planet, it's name will be removed from the list of exoplanet names read from planets.csv.
+The *destroy()* method is next to be called in each draw call. This method handles removing planet and enemy object when they are shot. It does this by looping through the objects and seeing if they are within range of being shot. If this is true and the user is currently shooting, the object or objects if both in range, will be removed from their respective ArrayLists, and if it is a planet, it's name will be removed from the list of exoplanet names read from planets.csv. Below is an example for how planets are handled:
 
-The next method to be called in *draw()* is *weaponAnimation()*. It checks if the user is firing by checking the boolean *firing* and if they are, it then check which weapon is selected by checking the contents of the String *weapon*. Depending on the value of *weapon*, the color, size and location will be drawn differently to match the real world look of the selected weapon.
+
+```Java
+for(int j = 0; j < scene.size(); j++){
+            if (dist(width/2, height/2, scene.get(j).x,scene.get(j).y) < width/12){
+                sight = true;
+                if(firing == true){
+                    explode = true;
+                    scene.remove(j);
+                    planetNames.remove(j);
+                }
+            }
+        }
+```
+
+The next method to be called in *draw()* is *weaponAnimation()*. It checks if the user is firing by checking the boolean *firing* and if they are, it then check which weapon is selected by checking the contents of the String *weapon*. Depending on the value of *weapon*, the color, size and location will be drawn differently to match the real world look of the selected weapon. Below is an example for if *weapon* is set to "lazer":
+
+```Java
+if(firing == true){
+            if(weapon.equals("Lazer")){
+                fill(96,40,100);
+                ellipse(width/2, height/2, ammo, ammo);
+                ammo = (width/12) + (random((-width/100),(width/100)));
+                ellipse(halfWidth + random(-width/20,width/20),halfHeight + random(-height/20,height/20), random(3,6), random(3,6));
+                ellipse(halfWidth + random(-width/20,width/20),halfHeight + random(-height/20,height/20), random(6,12), random(6,12));
+                ellipse(halfWidth + random(-width/20,width/20),halfHeight + random(-height/20,height/20), random(12,15), random(12,15));
+
+            }
+}
+```
 
 The method *screenBezel()* simplies calls the *update()* method of each screen and has them draw their bezel over the screen borders. Then *update()* and *render()* are called for the target. In *update()*, the boolean *sight* is passed which will be true if a planet or enemy is in range. If sight is true, the target finder is set to green and will say 'Lock On'. Else, it will say 'No Target'. The *render()* method then draws the target finder, with the color depending on the outcome of *update()*. The reticle is drawn in the centre, a crosshair in a plus shape is drawn and a box for displaying the target information is drawn above it.
 
@@ -101,6 +206,27 @@ LocalTime hour = ZonedDateTime.now().toLocalTime().truncatedTo(ChronoUnit.SECOND
 Then *hour* is converted to a String using *hour.toString()* so that it can be rendered using the text method and thus displaying the user's current time.
 
 Next to be called in *draw()* is *rotating()*. First it checks if the current value of *angle* is too high or low. This value is used for rotating the enemies back and forth. If the value is too low, *addAngle* is set to true and then *angle* will be incremented. Otherwise, the opposite is true. It also increments *moon* by 5 every call. This variable is used for rotating the moons for the given planets both clockwise and anticlockwise.
+
+```Java
+public void rotating(){
+        if(angle > 120){
+            addAngle = false;
+        }
+
+        if(angle < -120){
+            addAngle = true;
+        }
+
+
+        if(addAngle){
+            angle++;
+        }else{
+            angle--;
+        }
+
+        moon = moon + 5;
+    } 
+```
 
 Next, *userInput()* is called. This handles the user input from the keyboard for directions. Depending on the arrow key pressed, the objects will be have their x and y values adjusted to create the simulation of rotating around the user. The compass variables are also adjusted depending on the arrow key. From the following code snippet for the use case of the user pressing LEFT, it can be seen how each direction only requires slight adjustment to conform to it's needs.
 ```Java
