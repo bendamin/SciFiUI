@@ -357,7 +357,7 @@ The first part of this sets the number of moons per planet. This is calculated d
 Regarding git, while I had an account for many years, lacked proficient skills in using git which made it little use to me. Through this project and module, I have learned to commit, branch, fork, set remotes and much more. I made a very large amount of commits over the course of this project, but it also has enabled me to start using git for other projects such as Android apps that I make as a hobby. While this is not entirely relevant to the SciFi UI, it has been incredibly helpful for my abilty to code and collaborate with friends on other projects.
 
 # SciFi Demo
-
+[![YouTube](http://img.youtube.com/vi/VJkd6LCrGvI/0.jpg)](https://www.youtube.com/watch?v=VJkd6LCrGvI)
 
 # Markdown Tutorial
 
